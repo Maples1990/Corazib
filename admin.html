@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corazon Admin</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <section class="admin-hero">
+      <div>
+        <p class="eyebrow">Corazon Creative Co.</p>
+        <h1>Admin dashboard</h1>
+        <p class="hero-text">Secure intake management for orders and contact messages. Access is limited to Maria through email-based sign-in.</p>
+      </div>
+      <a class="back-link" href="/">Back to website</a>
+    </section>
+
+    <section class="admin-login-card" id="login-panel">
+      <div class="card-heading">
+        <p class="eyebrow">Secure login</p>
+        <h2>Sign in with Maria's email</h2>
+        <p>Request a one-time code sent to maria@corazoncreativeco.org. No shared password is stored in the frontend.</p>
+      </div>
+
+      <form class="admin-form" id="request-code-form">
+        <label>
+          Maria's email
+          <input type="email" name="email" value="maria@corazoncreativeco.org" required>
+        </label>
+        <button class="button button-primary" type="submit">Send sign-in code</button>
+        <p class="form-feedback" id="request-code-feedback" aria-live="polite"></p>
+      </form>
+
+      <form class="admin-form" id="verify-code-form">
+        <label>
+          One-time code
+          <input type="text" name="code" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code" required>
+        </label>
+        <button class="button button-secondary" type="submit">Verify and sign in</button>
+        <p class="form-feedback" id="verify-code-feedback" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="dashboard" id="dashboard" hidden>
+      <div class="dashboard-toolbar">
+        <div>
+          <p class="eyebrow">Submission inbox</p>
+          <h2>Orders and contact requests</h2>
+        </div>
+
+        <div class="toolbar-actions">
+          <label class="filter-label">
+            Filter
+            <select id="submission-filter">
+              <option value="all">All submissions</option>
+              <option value="order">Orders only</option>
+              <option value="contact">Messages only</option>
+              <option value="new">New only</option>
+            </select>
+          </label>
+          <button class="button button-secondary" id="refresh-submissions" type="button">Refresh</button>
+          <button class="button button-primary" id="logout-button" type="button">Sign out</button>
+        </div>
+      </div>
+
+      <div class="stats-grid" id="stats-grid">
+        <article class="stat-card">
+          <span>Total</span>
+          <strong id="stat-total">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>New</span>
+          <strong id="stat-new">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Orders</span>
+          <strong id="stat-orders">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Messages</span>
+          <strong id="stat-contacts">0</strong>
+        </article>
+      </div>
+
+      <div class="submission-list" id="submission-list"></div>
+      <p class="dashboard-empty" id="dashboard-empty" hidden>No submissions match the current filter.</p>
+    </section>
+  </main>
+
+  <template id="submission-template">
+    <article class="submission-card">
+      <div class="submission-header">
+        <div>
+          <span class="submission-type"></span>
+          <h3 class="submission-title"></h3>
+        </div>
+        <p class="submission-date"></p>
+      </div>
+
+      <div class="submission-details"></div>
+
+      <div class="submission-editor">
+        <label>
+          Status
+          <select class="submission-status">
+            <option value="new">New</option>
+            <option value="reviewed">Reviewed</option>
+            <option value="contacted">Contacted</option>
+            <option value="in-design">In design</option>
+            <option value="in-production">In production</option>
+            <option value="completed">Completed</option>
+          </select>
+        </label>
+
+        <label>
+          Notes
+          <textarea class="submission-notes" rows="4" placeholder="Internal notes for Maria"></textarea>
+        </label>
+
+        <div class="submission-actions">
+          <button class="button button-primary save-submission" type="button">Save</button>
+          <a class="button button-secondary submission-email-link" href="/">Email customer</a>
+        </div>
+        <p class="form-feedback submission-feedback" aria-live="polite"></p>
+      </div>
+    </article>
+  </template>
+
+  <script src="admin.js"></script>
+</body>
+</html>

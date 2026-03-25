@@ -1,0 +1,134 @@
+{
+  "valentines": {
+    "start": "02-01",
+    "end": "02-15",
+    "banner": "💕 Valentine's Day special — Custom couples and love-themed apparel available now!",
+    "colors": {
+      "--bg": "#fef0f4",
+      "--bg-top": "#fff5f8",
+      "--bg-bottom": "#f8dce6",
+      "--surface": "rgba(255, 240, 244, 0.85)",
+      "--section-light": "rgba(255, 240, 248, 0.96)",
+      "--section-warm": "rgba(248, 210, 228, 0.92)",
+      "--header-bg": "rgba(255, 240, 248, 0.8)",
+      "--card-bg": "rgba(248, 220, 232, 0.92)",
+      "--accent": "#c2185b",
+      "--accent-deep": "#880e4f",
+      "--accent-soft": "#f48fb1",
+      "--accent-warm": "#e91e63",
+      "--glow-warm": "rgba(244, 143, 177, 0.7)",
+      "--glow-accent": "rgba(194, 24, 91, 0.15)",
+      "--glow-deep": "rgba(136, 14, 79, 0.08)"
+    }
+  },
+  "easter": {
+    "start": "03-25",
+    "end": "04-21",
+    "banner": "🌷 Easter season — Faith-inspired and spring apparel designs are here!",
+    "colors": {
+      "--bg": "#f0f6ec",
+      "--bg-top": "#f5faf0",
+      "--bg-bottom": "#dde8d4",
+      "--surface": "rgba(240, 248, 235, 0.85)",
+      "--section-light": "rgba(245, 252, 240, 0.96)",
+      "--section-warm": "rgba(215, 235, 200, 0.92)",
+      "--header-bg": "rgba(245, 252, 240, 0.8)",
+      "--card-bg": "rgba(220, 238, 208, 0.92)",
+      "--accent": "#558b2f",
+      "--accent-deep": "#33691e",
+      "--accent-soft": "#aed581",
+      "--accent-warm": "#7cb342",
+      "--glow-warm": "rgba(174, 213, 129, 0.7)",
+      "--glow-accent": "rgba(85, 139, 47, 0.15)",
+      "--glow-deep": "rgba(51, 105, 30, 0.08)"
+    }
+  },
+  "summer": {
+    "start": "06-01",
+    "end": "08-15",
+    "banner": "☀️ Summer orders open — Team shirts, camp tees, and vacation apparel!",
+    "colors": {
+      "--bg": "#fef9ec",
+      "--bg-top": "#fffbf0",
+      "--bg-bottom": "#f5e6c0",
+      "--surface": "rgba(255, 250, 235, 0.85)",
+      "--section-light": "rgba(255, 252, 240, 0.96)",
+      "--section-warm": "rgba(245, 228, 190, 0.92)",
+      "--header-bg": "rgba(255, 252, 240, 0.8)",
+      "--card-bg": "rgba(245, 232, 198, 0.92)",
+      "--accent": "#e65100",
+      "--accent-deep": "#bf360c",
+      "--accent-soft": "#ffb74d",
+      "--accent-warm": "#f57c00",
+      "--glow-warm": "rgba(255, 183, 77, 0.7)",
+      "--glow-accent": "rgba(230, 81, 0, 0.15)",
+      "--glow-deep": "rgba(191, 54, 12, 0.08)"
+    }
+  },
+  "back-to-school": {
+    "start": "08-01",
+    "end": "09-10",
+    "banner": "📚 Back to school — Custom school spirit wear and group orders!",
+    "colors": {
+      "--bg": "#eef2f8",
+      "--bg-top": "#f3f6fb",
+      "--bg-bottom": "#d8e0ed",
+      "--surface": "rgba(238, 242, 248, 0.85)",
+      "--section-light": "rgba(240, 245, 252, 0.96)",
+      "--section-warm": "rgba(212, 225, 242, 0.92)",
+      "--header-bg": "rgba(240, 245, 252, 0.8)",
+      "--card-bg": "rgba(218, 228, 242, 0.92)",
+      "--accent": "#1565c0",
+      "--accent-deep": "#0d47a1",
+      "--accent-soft": "#64b5f6",
+      "--accent-warm": "#1976d2",
+      "--glow-warm": "rgba(100, 181, 246, 0.7)",
+      "--glow-accent": "rgba(21, 101, 192, 0.15)",
+      "--glow-deep": "rgba(13, 71, 161, 0.08)"
+    }
+  },
+  "fall": {
+    "start": "09-15",
+    "end": "11-15",
+    "banner": "🍂 Fall collection — Cozy sweaters and autumn-themed designs!",
+    "colors": {
+      "--bg": "#faf5ee",
+      "--bg-top": "#fcf8f2",
+      "--bg-bottom": "#ece0cc",
+      "--surface": "rgba(250, 245, 238, 0.85)",
+      "--section-light": "rgba(252, 248, 240, 0.96)",
+      "--section-warm": "rgba(238, 222, 198, 0.92)",
+      "--header-bg": "rgba(252, 248, 240, 0.8)",
+      "--card-bg": "rgba(240, 225, 205, 0.92)",
+      "--accent": "#b85c1e",
+      "--accent-deep": "#7a3e10",
+      "--accent-soft": "#d4a056",
+      "--accent-warm": "#e65100",
+      "--glow-warm": "rgba(212, 160, 86, 0.7)",
+      "--glow-accent": "rgba(184, 92, 30, 0.15)",
+      "--glow-deep": "rgba(122, 62, 16, 0.08)"
+    }
+  },
+  "christmas": {
+    "start": "11-20",
+    "end": "12-26",
+    "banner": "🎄 Holiday orders — Custom Christmas sweaters, gifts, and family matching sets!",
+    "colors": {
+      "--bg": "#f5f8f3",
+      "--bg-top": "#f9fbf6",
+      "--bg-bottom": "#dce8d5",
+      "--surface": "rgba(245, 248, 243, 0.85)",
+      "--section-light": "rgba(248, 252, 245, 0.96)",
+      "--section-warm": "rgba(218, 236, 210, 0.92)",
+      "--header-bg": "rgba(248, 252, 245, 0.8)",
+      "--card-bg": "rgba(222, 238, 215, 0.92)",
+      "--accent": "#c62828",
+      "--accent-deep": "#1b5e20",
+      "--accent-soft": "#a5d6a7",
+      "--accent-warm": "#d32f2f",
+      "--glow-warm": "rgba(165, 214, 167, 0.6)",
+      "--glow-accent": "rgba(198, 40, 40, 0.15)",
+      "--glow-deep": "rgba(27, 94, 32, 0.08)"
+    }
+  }
+}

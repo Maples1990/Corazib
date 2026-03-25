@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: corazon
+  namespace: default
+  labels:
+    app: corazon
+spec:
+  selector:
+    app: corazon
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  type: ClusterIP

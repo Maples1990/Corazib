@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — Corazon Creative Co.</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fraunces:opsz,wght@9..144,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5efe5;
+      --ink: #1f1a19;
+      --muted: #655851;
+      --accent: #6a3bb3;
+      --accent-deep: #1f4c8b;
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Sora", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(184, 134, 41, 0.34), transparent 24%),
+        radial-gradient(circle at right top, rgba(106, 59, 179, 0.18), transparent 22%),
+        linear-gradient(180deg, #fbf7f0 0%, var(--bg) 100%);
+      padding: 24px;
+      text-align: center;
+    }
+    .error-card {
+      max-width: 520px;
+      padding: 48px 36px;
+      border-radius: 30px;
+      background: rgba(255, 252, 247, 0.92);
+      border: 1px solid rgba(31, 26, 25, 0.1);
+      box-shadow: 0 24px 70px rgba(49, 35, 22, 0.12);
+    }
+    .error-code {
+      font-family: "Fraunces", serif;
+      font-size: 6rem;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    h1 {
+      font-family: "Fraunces", serif;
+      font-size: 1.6rem;
+      margin: 16px 0 12px;
+      letter-spacing: -0.03em;
+    }
+    p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 28px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+      color: white;
+      font-weight: 600;
+      font-family: inherit;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-card">
+    <div class="error-code">404</div>
+    <h1>Page not found</h1>
+    <p>The page you're looking for doesn't exist or has been moved. Let's get you back to browsing custom apparel.</p>
+    <a class="home-link" href="/">Back to Home</a>
+  </div>
+</body>
+</html>

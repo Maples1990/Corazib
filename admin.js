@@ -373,8 +373,17 @@ function renderPosts() {
         </div>
         <p class="submission-date">${new Date(post.createdAt).toLocaleString()}</p>
       </div>
-      <div class="blog-post-body">${escapeHtml(post.body)}</div>
-      <div class="submission-actions">
+      <div class="blog-post-body blog-post-preview">${escapeHtml(post.body)}</div>
+      <div class="blog-post-edit-form" hidden>
+        <label>Title<input type="text" class="blog-edit-title" value="${escapeHtml(post.title).replace(/"/g, '&quot;')}" maxlength="200"></label>
+        <label>Body<textarea class="blog-edit-body" rows="5" maxlength="10000">${escapeHtml(post.body)}</textarea></label>
+        <div class="submission-actions">
+          <button class="button button-primary blog-save-edit" type="button">Save changes</button>
+          <button class="button button-secondary blog-cancel-edit" type="button">Cancel</button>
+        </div>
+      </div>
+      <div class="submission-actions blog-post-actions">
+        <button class="button button-secondary blog-edit" data-id="${post.id}" type="button">Edit</button>
         <button class="button button-primary blog-toggle-publish" data-id="${post.id}" type="button">
           ${post.published ? 'Unpublish' : 'Publish'}
         </button>
@@ -385,7 +394,41 @@ function renderPosts() {
 
     const toggleBtn = card.querySelector('.blog-toggle-publish');
     const deleteBtn = card.querySelector('.blog-delete');
+    const editBtn = card.querySelector('.blog-edit');
+    const editForm = card.querySelector('.blog-post-edit-form');
+    const preview = card.querySelector('.blog-post-preview');
+    const actions = card.querySelector('.blog-post-actions');
+    const saveEditBtn = card.querySelector('.blog-save-edit');
+    const cancelEditBtn = card.querySelector('.blog-cancel-edit');
     const feedback = card.querySelector('.blog-post-feedback');
+
+    editBtn.addEventListener('click', () => {
+      preview.hidden = true;
+      actions.hidden = true;
+      editForm.hidden = false;
+    });
+
+    cancelEditBtn.addEventListener('click', () => {
+      preview.hidden = false;
+      actions.hidden = false;
+      editForm.hidden = true;
+    });
+
+    saveEditBtn.addEventListener('click', async () => {
+      const newTitle = card.querySelector('.blog-edit-title').value.trim();
+      const newBody = card.querySelector('.blog-edit-body').value.trim();
+      if (!newTitle || !newBody) { feedback.textContent = 'Title and body are required.'; return; }
+      setBusy(saveEditBtn, true);
+      try {
+        await api(`/api/admin/posts/${post.id}`, { method: 'PATCH', body: { title: newTitle, body: newBody } });
+        feedback.textContent = 'Saved!';
+        await loadPosts();
+      } catch (error) {
+        feedback.textContent = error.message;
+      } finally {
+        setBusy(saveEditBtn, false);
+      }
+    });
 
     toggleBtn.addEventListener('click', async () => {
       setBusy(toggleBtn, true);

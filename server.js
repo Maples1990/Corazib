@@ -28,7 +28,7 @@ const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
 const DATA_DIR = path.join(__dirname, 'data');
 const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
 const STORE_FILE = path.join(DATA_DIR, 'store.json');
-const PUBLIC_FILES = new Set(['index.html', 'styles.css', 'script.js', 'admin.html', 'admin.css', 'admin.js', 'track.html', 'sizes.html', 'blog.html']);
+const PUBLIC_FILES = new Set(['index.html', 'styles.css', 'script.js', 'admin.html', 'admin.css', 'admin.js', 'track.html', 'sizes.html', 'blog.html', '404.html', 'privacy.html', 'terms.html', 'manifest.json']);
 
 ensureDirectory(DATA_DIR);
 ensureDirectory(UPLOADS_DIR);
@@ -616,7 +616,7 @@ app.post('/api/checkout', asyncHandler(async (req, res) => {
 /* --- Sitemap and robots.txt --- */
 
 app.get('/sitemap.xml', (_req, res) => {
-  const pages = ['', '/track', '/sizes', '/blog'];
+  const pages = ['', '/track', '/sizes', '/blog', '/privacy', '/terms'];
   const urls = pages.map((p) =>
     `  <url><loc>https://corazoncreativeco.org${p}</loc></url>`
   ).join('\n');
@@ -639,6 +639,10 @@ app.use((req, res, next) => {
 
   if (req.method === 'GET' && req.path === '/') {
     return next();
+  }
+
+  if (req.method === 'GET' && req.accepts('html')) {
+    return res.status(404).sendFile(path.join(__dirname, '404.html'));
   }
 
   return res.status(404).json({ ok: false, message: 'Not found.' });

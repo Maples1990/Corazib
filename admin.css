@@ -468,6 +468,29 @@ textarea:focus {
   overflow: hidden;
 }
 
+.blog-post-edit-form {
+  margin-bottom: 16px;
+}
+
+.blog-post-edit-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.blog-post-edit-form input,
+.blog-post-edit-form textarea {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
 @media (max-width: 1080px) {
   .admin-login-card,
   .stats-grid {

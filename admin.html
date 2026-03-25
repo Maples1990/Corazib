@@ -90,6 +90,54 @@
 
       <div class="submission-list" id="submission-list"></div>
       <p class="dashboard-empty" id="dashboard-empty" hidden>No submissions match the current filter.</p>
+
+      <div class="analytics-section" id="analytics-section">
+        <div class="card-heading">
+          <p class="eyebrow">Site analytics</p>
+          <h2>Traffic overview <span class="analytics-range">(last 30 days)</span></h2>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span>Today views</span>
+            <strong id="stat-views-today">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>7-day views</span>
+            <strong id="stat-views-7d">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>30-day views</span>
+            <strong id="stat-views-30d">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Unique visitors</span>
+            <strong id="stat-unique-30d">0</strong>
+          </article>
+        </div>
+
+        <div class="analytics-tables">
+          <div class="analytics-table-wrap">
+            <h3>Top pages</h3>
+            <table class="analytics-table" id="analytics-top-pages">
+              <thead><tr><th>Page</th><th>Views</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="analytics-table-wrap">
+            <h3>Top referrers</h3>
+            <table class="analytics-table" id="analytics-top-referrers">
+              <thead><tr><th>Source</th><th>Views</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="analytics-chart-wrap">
+          <h3>Daily views</h3>
+          <div class="analytics-chart" id="analytics-chart"></div>
+        </div>
+      </div>
     </section>
   </main>
 

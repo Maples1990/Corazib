@@ -1,6 +1,23 @@
 const revealedSections = document.querySelectorAll('.reveal');
 const forms = document.querySelectorAll('.js-submit-form');
 
+/* --- Pageview analytics beacon --- */
+(function trackPageview() {
+  try {
+    const payload = {
+      path: location.pathname,
+      referrer: document.referrer || '',
+      screen: `${screen.width}x${screen.height}`,
+    };
+    fetch('/api/track/pageview', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      credentials: 'same-origin',
+    }).catch(() => {});
+  } catch (_e) { /* silent */ }
+})();
+
 /* --- Scroll reveal --- */
 const observer = new IntersectionObserver(
   (entries) => {

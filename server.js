@@ -67,6 +67,7 @@ app.use('/api/admin/request-code', rateLimit({ windowMs: 15 * 60 * 1000, max: 5 
 app.use('/api/admin/verify-code', rateLimit({ windowMs: 15 * 60 * 1000, max: 8 }));
 app.use('/api/order', rateLimit({ windowMs: 15 * 60 * 1000, max: 8 }));
 app.use('/api/contact', rateLimit({ windowMs: 15 * 60 * 1000, max: 8 }));
+app.use('/api/track/pageview', rateLimit({ windowMs: 1 * 60 * 1000, max: 30 }));
 
 app.use('/assets', express.static(path.join(__dirname, 'assets'), {
   extensions: ['jpg', 'jpeg', 'png', 'webp'],
@@ -424,6 +425,104 @@ app.get('/api/theme', (_req, res) => {
 });
 
 /* --- Blog admin CRUD --- */
+
+/* --- Analytics --- */
+
+const ANALYTICS_FILE = path.join(DATA_DIR, 'analytics.json');
+
+function loadAnalytics() {
+  if (!fs.existsSync(ANALYTICS_FILE)) return [];
+  try { return JSON.parse(fs.readFileSync(ANALYTICS_FILE, 'utf8')); }
+  catch (_e) { return []; }
+}
+
+function persistAnalytics(data) {
+  fs.writeFileSync(ANALYTICS_FILE, JSON.stringify(data));
+}
+
+const analyticsData = loadAnalytics();
+
+app.post('/api/track/pageview', (req, res) => {
+  const p = String(req.body.path || '/').slice(0, 200);
+  const referrer = String(req.body.referrer || '').slice(0, 500);
+  const screen = String(req.body.screen || '').slice(0, 20);
+  const ua = String(req.get('user-agent') || '').slice(0, 300);
+  const ip = req.ip || '';
+
+  // Deduplicate: hash ip+ua+path for unique visitor per page per day
+  const today = new Date().toISOString().slice(0, 10);
+  const visitorHash = createHash(`${ip}:${ua}:${p}:${today}`).slice(0, 16);
+
+  analyticsData.push({
+    ts: new Date().toISOString(),
+    path: p,
+    referrer: referrer ? new URL(referrer, 'http://x').hostname.replace('x', '') || '' : '',
+    screen,
+    vh: visitorHash,
+    day: today,
+  });
+
+  // Keep max 90 days of data
+  const cutoff = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  while (analyticsData.length > 0 && analyticsData[0].day < cutoff) {
+    analyticsData.shift();
+  }
+
+  persistAnalytics(analyticsData);
+  res.json({ ok: true });
+});
+
+app.get('/api/admin/analytics', requireAdmin, (_req, res) => {
+  const now = new Date();
+  const last30 = new Date(now - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const last7 = new Date(now - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const today = now.toISOString().slice(0, 10);
+
+  const recent = analyticsData.filter((e) => e.day >= last30);
+
+  // Total pageviews
+  const totalViews = recent.length;
+  const todayViews = recent.filter((e) => e.day === today).length;
+  const last7Views = recent.filter((e) => e.day >= last7).length;
+
+  // Unique visitors (by visitor hash)
+  const uniqueAll = new Set(recent.map((e) => e.vh)).size;
+  const uniqueToday = new Set(recent.filter((e) => e.day === today).map((e) => e.vh)).size;
+  const unique7 = new Set(recent.filter((e) => e.day >= last7).map((e) => e.vh)).size;
+
+  // Top pages
+  const pageCounts = {};
+  recent.forEach((e) => { pageCounts[e.path] = (pageCounts[e.path] || 0) + 1; });
+  const topPages = Object.entries(pageCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([page, views]) => ({ page, views }));
+
+  // Top referrers
+  const refCounts = {};
+  recent.filter((e) => e.referrer).forEach((e) => { refCounts[e.referrer] = (refCounts[e.referrer] || 0) + 1; });
+  const topReferrers = Object.entries(refCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([source, views]) => ({ source, views }));
+
+  // Views per day (last 30 days)
+  const dailyViews = {};
+  recent.forEach((e) => { dailyViews[e.day] = (dailyViews[e.day] || 0) + 1; });
+  const viewsByDay = Object.entries(dailyViews)
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([day, views]) => ({ day, views }));
+
+  res.json({
+    ok: true,
+    analytics: {
+      totalViews, todayViews, last7Views,
+      uniqueVisitors: uniqueAll,
+      uniqueToday, unique7,
+      topPages, topReferrers, viewsByDay,
+    },
+  });
+});
 
 app.get('/api/admin/posts', requireAdmin, (_req, res) => {
   res.json({ ok: true, posts: store.posts || [] });

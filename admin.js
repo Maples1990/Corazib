@@ -117,6 +117,8 @@ async function loadDashboardData() {
 
   submissions = submissionsResponse.submissions;
   renderSubmissions();
+
+  loadAnalytics();
 }
 
 function renderSubmissions() {
@@ -247,5 +249,47 @@ function setBusy(button, busy) {
     button.setAttribute('aria-busy', 'true');
   } else {
     button.removeAttribute('aria-busy');
+  }
+}
+
+async function loadAnalytics() {
+  try {
+    const result = await api('/api/admin/analytics');
+    const a = result.analytics;
+
+    document.querySelector('#stat-views-today').textContent = String(a.todayViews);
+    document.querySelector('#stat-views-7d').textContent = String(a.last7Views);
+    document.querySelector('#stat-views-30d').textContent = String(a.totalViews);
+    document.querySelector('#stat-unique-30d').textContent = String(a.uniqueVisitors);
+
+    // Top pages table
+    const pagesBody = document.querySelector('#analytics-top-pages tbody');
+    if (pagesBody) {
+      pagesBody.innerHTML = a.topPages.length > 0
+        ? a.topPages.map((p) => `<tr><td>${escapeHtml(p.page)}</td><td>${p.views}</td></tr>`).join('')
+        : '<tr><td colspan="2" class="analytics-empty">No data yet</td></tr>';
+    }
+
+    // Top referrers table
+    const refsBody = document.querySelector('#analytics-top-referrers tbody');
+    if (refsBody) {
+      refsBody.innerHTML = a.topReferrers.length > 0
+        ? a.topReferrers.map((r) => `<tr><td>${escapeHtml(r.source)}</td><td>${r.views}</td></tr>`).join('')
+        : '<tr><td colspan="2" class="analytics-empty">No referrers yet</td></tr>';
+    }
+
+    // Bar chart
+    const chart = document.querySelector('#analytics-chart');
+    if (chart && a.viewsByDay.length > 0) {
+      const maxViews = Math.max(...a.viewsByDay.map((d) => d.views), 1);
+      chart.innerHTML = a.viewsByDay.map((d) => {
+        const pct = Math.max((d.views / maxViews) * 100, 3);
+        return `<div class="analytics-bar" style="height:${pct}%" data-label="${d.day}: ${d.views} views"></div>`;
+      }).join('');
+    } else if (chart) {
+      chart.innerHTML = '<p class="analytics-empty">No traffic data yet. Views will appear here as visitors browse the site.</p>';
+    }
+  } catch (_e) {
+    // Analytics is non-critical, silently skip
   }
 }

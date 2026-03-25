@@ -288,6 +288,118 @@ textarea:focus {
   margin: 24px 0 0;
 }
 
+/* --- Analytics --- */
+
+.analytics-section {
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+}
+
+.analytics-range {
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.analytics-tables {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.analytics-table-wrap h3 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+
+.analytics-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.analytics-table th,
+.analytics-table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+.analytics-table th {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.analytics-table td:last-child,
+.analytics-table th:last-child {
+  text-align: right;
+}
+
+.analytics-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.analytics-chart-wrap {
+  margin-top: 24px;
+}
+
+.analytics-chart-wrap h3 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+
+.analytics-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 120px;
+  padding: 8px 0;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  padding: 12px;
+}
+
+.analytics-bar {
+  flex: 1;
+  min-width: 4px;
+  background: var(--accent);
+  border-radius: 3px 3px 0 0;
+  position: relative;
+  cursor: default;
+}
+
+.analytics-bar:hover::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.analytics-empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 24px;
+}
+
 @media (max-width: 1080px) {
   .admin-login-card,
   .stats-grid {
@@ -315,6 +427,10 @@ textarea:focus {
   .admin-hero,
   .admin-login-card,
   .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-tables {
     grid-template-columns: 1fr;
   }
 

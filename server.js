@@ -3,11 +3,13 @@ const fs = require('fs');
 const path = require('path');
 
 const express = require('express');
+const compression = require('compression');
 const multer = require('multer');
 const nodemailer = require('nodemailer');
 
 const app = express();
 app.disable('x-powered-by');
+app.use(compression());
 
 loadEnvFile();
 
@@ -323,6 +325,17 @@ app.get('/api/admin/stats', requireAdmin, (_req, res) => {
 
 app.get('/api/admin/submissions', requireAdmin, (_req, res) => {
   res.json({ ok: true, submissions: store.submissions });
+});
+
+app.get('/api/admin/export', requireAdmin, (_req, res) => {
+  res.json({
+    ok: true,
+    data: {
+      exportedAt: new Date().toISOString(),
+      submissions: store.submissions,
+      posts: store.posts || [],
+    },
+  });
 });
 
 app.patch('/api/admin/submissions/:id', requireAdmin, asyncHandler(async (req, res) => {

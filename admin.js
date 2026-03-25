@@ -6,12 +6,18 @@ const requestCodeFeedback = document.querySelector('#request-code-feedback');
 const verifyCodeFeedback = document.querySelector('#verify-code-feedback');
 const filterSelect = document.querySelector('#submission-filter');
 const refreshButton = document.querySelector('#refresh-submissions');
+const exportButton = document.querySelector('#export-data');
 const logoutButton = document.querySelector('#logout-button');
 const submissionList = document.querySelector('#submission-list');
 const submissionTemplate = document.querySelector('#submission-template');
 const dashboardEmpty = document.querySelector('#dashboard-empty');
+const blogCreateForm = document.querySelector('#blog-create-form');
+const blogCreateFeedback = document.querySelector('#blog-create-feedback');
+const blogPostList = document.querySelector('#blog-post-list');
+const blogEmpty = document.querySelector('#blog-empty');
 
 let submissions = [];
+let posts = [];
 
 initialize();
 
@@ -86,6 +92,42 @@ function bindEvents() {
       loginPanel.hidden = false;
     }
   });
+
+  exportButton?.addEventListener('click', async () => {
+    try {
+      const result = await api('/api/admin/export');
+      const blob = new Blob([JSON.stringify(result.data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `corazon-export-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+
+  blogCreateForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const submitButton = blogCreateForm.querySelector('button[type="submit"]');
+    const title = blogCreateForm.title.value.trim();
+    const body = blogCreateForm.body.value.trim();
+
+    setBusy(submitButton, true);
+    blogCreateFeedback.textContent = 'Creating...';
+
+    try {
+      await api('/api/admin/posts', { method: 'POST', body: { title, body } });
+      blogCreateFeedback.textContent = 'Post created (unpublished). Toggle publish below.';
+      blogCreateForm.reset();
+      await loadPosts();
+    } catch (error) {
+      blogCreateFeedback.textContent = error.message;
+    } finally {
+      setBusy(submitButton, false);
+    }
+  });
 }
 
 async function checkSession() {
@@ -119,6 +161,7 @@ async function loadDashboardData() {
   renderSubmissions();
 
   loadAnalytics();
+  loadPosts();
 }
 
 function renderSubmissions() {
@@ -186,7 +229,7 @@ function renderSubmissions() {
 
 function buildSubmissionDetails(submission) {
   if (submission.type === 'order') {
-    return [
+    const rows = [
       detailRow('Email', submission.email),
       detailRow('Phone', submission.phone || 'Not provided'),
       detailRow('Apparel', submission.apparel),
@@ -195,7 +238,16 @@ function buildSubmissionDetails(submission) {
       detailRow('Needed by', submission.deadline || 'Not provided'),
       detailRow('Occasion', submission.occasion || 'Not provided'),
       detailRow('Design details', escapeHtml(submission.details), true),
-    ].join('');
+    ];
+
+    if (submission.attachments && submission.attachments.length > 0) {
+      const thumbs = submission.attachments.map((f) =>
+        `<a href="/api/admin/attachments/${encodeURIComponent(f)}" target="_blank" class="attachment-thumb"><img src="/api/admin/attachments/${encodeURIComponent(f)}" alt="${escapeHtml(f)}"></a>`
+      ).join('');
+      rows.push(`<div class="attachment-grid"><strong>Attachments:</strong><div class="attachment-images">${thumbs}</div></div>`);
+    }
+
+    return rows.join('');
   }
 
   return [
@@ -292,4 +344,78 @@ async function loadAnalytics() {
   } catch (_e) {
     // Analytics is non-critical, silently skip
   }
+}
+
+async function loadPosts() {
+  try {
+    const result = await api('/api/admin/posts');
+    posts = result.posts || [];
+    renderPosts();
+  } catch (_e) {
+    // Non-critical
+  }
+}
+
+function renderPosts() {
+  if (!blogPostList) return;
+  blogPostList.innerHTML = '';
+
+  if (blogEmpty) blogEmpty.hidden = posts.length > 0;
+
+  posts.forEach((post) => {
+    const card = document.createElement('article');
+    card.className = 'blog-post-card';
+    card.innerHTML = `
+      <div class="blog-post-header">
+        <div>
+          <span class="submission-type">${post.published ? 'Published' : 'Draft'}</span>
+          <h3 class="submission-title">${escapeHtml(post.title)}</h3>
+        </div>
+        <p class="submission-date">${new Date(post.createdAt).toLocaleString()}</p>
+      </div>
+      <div class="blog-post-body">${escapeHtml(post.body)}</div>
+      <div class="submission-actions">
+        <button class="button button-primary blog-toggle-publish" data-id="${post.id}" type="button">
+          ${post.published ? 'Unpublish' : 'Publish'}
+        </button>
+        <button class="button button-secondary blog-delete" data-id="${post.id}" type="button">Delete</button>
+      </div>
+      <p class="form-feedback blog-post-feedback" aria-live="polite"></p>
+    `;
+
+    const toggleBtn = card.querySelector('.blog-toggle-publish');
+    const deleteBtn = card.querySelector('.blog-delete');
+    const feedback = card.querySelector('.blog-post-feedback');
+
+    toggleBtn.addEventListener('click', async () => {
+      setBusy(toggleBtn, true);
+      try {
+        await api(`/api/admin/posts/${post.id}`, {
+          method: 'PATCH',
+          body: { published: !post.published },
+        });
+        feedback.textContent = post.published ? 'Unpublished.' : 'Published!';
+        await loadPosts();
+      } catch (error) {
+        feedback.textContent = error.message;
+      } finally {
+        setBusy(toggleBtn, false);
+      }
+    });
+
+    deleteBtn.addEventListener('click', async () => {
+      if (!confirm(`Delete "${post.title}"?`)) return;
+      setBusy(deleteBtn, true);
+      try {
+        await api(`/api/admin/posts/${post.id}`, { method: 'DELETE' });
+        await loadPosts();
+      } catch (error) {
+        feedback.textContent = error.message;
+      } finally {
+        setBusy(deleteBtn, false);
+      }
+    });
+
+    blogPostList.append(card);
+  });
 }

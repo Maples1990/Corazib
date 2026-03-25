@@ -64,6 +64,7 @@
               <option value="new">New only</option>
             </select>
           </label>
+          <button class="button button-secondary" id="export-data" type="button">Export data</button>
           <button class="button button-secondary" id="refresh-submissions" type="button">Refresh</button>
           <button class="button button-primary" id="logout-button" type="button">Sign out</button>
         </div>
@@ -137,6 +138,31 @@
           <h3>Daily views</h3>
           <div class="analytics-chart" id="analytics-chart"></div>
         </div>
+      </div>
+
+      <div class="blog-section" id="blog-section">
+        <div class="card-heading">
+          <p class="eyebrow">Blog / updates</p>
+          <h2>Manage posts</h2>
+        </div>
+
+        <form class="admin-form blog-create-form" id="blog-create-form">
+          <label>
+            Post title
+            <input type="text" name="title" maxlength="200" placeholder="e.g. New summer collection is here!" required>
+          </label>
+          <label>
+            Post body
+            <textarea name="body" rows="5" maxlength="10000" placeholder="Write your update here..." required></textarea>
+          </label>
+          <div class="submission-actions">
+            <button class="button button-primary" type="submit">Create post</button>
+          </div>
+          <p class="form-feedback" id="blog-create-feedback" aria-live="polite"></p>
+        </form>
+
+        <div class="blog-post-list" id="blog-post-list"></div>
+        <p class="dashboard-empty" id="blog-empty" hidden>No posts yet. Create your first update above.</p>
       </div>
     </section>
   </main>

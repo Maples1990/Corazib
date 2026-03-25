@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const express = require('express');
+const multer = require('multer');
 const nodemailer = require('nodemailer');
 
 const app = express();
@@ -19,12 +20,31 @@ const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'maria@corazoncreativeco.com').t
 const SESSION_SECRET = process.env.SESSION_SECRET || 'replace-this-in-production';
 const ALLOW_DEV_ADMIN_CODE_RESPONSE = process.env.ALLOW_DEV_ADMIN_CODE_RESPONSE === 'true';
 const ALLOWED_STATUSES = new Set(['new', 'reviewed', 'contacted', 'in-design', 'in-production', 'completed']);
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || '';
+const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
 
 const DATA_DIR = path.join(__dirname, 'data');
+const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
 const STORE_FILE = path.join(DATA_DIR, 'store.json');
-const PUBLIC_FILES = new Set(['index.html', 'styles.css', 'script.js', 'admin.html', 'admin.css', 'admin.js', 'track.html', 'sizes.html']);
+const PUBLIC_FILES = new Set(['index.html', 'styles.css', 'script.js', 'admin.html', 'admin.css', 'admin.js', 'track.html', 'sizes.html', 'blog.html']);
 
 ensureDirectory(DATA_DIR);
+ensureDirectory(UPLOADS_DIR);
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      cb(null, `${Date.now()}-${crypto.randomBytes(6).toString('hex')}${ext}`);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024, files: 5 },
+  fileFilter: (_req, file, cb) => {
+    const allowed = /^image\/(jpeg|jpg|png|gif|webp)$/i;
+    cb(null, allowed.test(file.mimetype));
+  },
+});
 
 const store = loadStore();
 const rateLimits = new Map();
@@ -48,16 +68,29 @@ app.use('/api/admin/verify-code', rateLimit({ windowMs: 15 * 60 * 1000, max: 8 }
 app.use('/api/order', rateLimit({ windowMs: 15 * 60 * 1000, max: 8 }));
 app.use('/api/contact', rateLimit({ windowMs: 15 * 60 * 1000, max: 8 }));
 
-app.use('/assets', express.static(path.join(__dirname, 'assets'), { extensions: ['jpg', 'jpeg', 'png', 'webp'] }));
+app.use('/assets', express.static(path.join(__dirname, 'assets'), {
+  extensions: ['jpg', 'jpeg', 'png', 'webp'],
+  maxAge: '7d',
+  immutable: false,
+}));
+
+app.use((req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  if (req.path === '/') return next();
+  if (req.path.startsWith('/assets/')) return next();
+  if (req.path.startsWith('/api/')) return next();
+  if (req.path === '/sitemap.xml' || req.path === '/robots.txt') return next();
+  const basename = path.basename(req.path);
+  if (PUBLIC_FILES.has(basename)) return next();
+  if (PUBLIC_FILES.has(basename + '.html')) return next();
+  return res.status(404).json({ ok: false, message: 'Not found.' });
+});
+
 app.use(express.static(__dirname, {
   extensions: ['html'],
   index: 'index.html',
   dotfiles: 'deny',
   setHeaders(res, filePath) {
-    const basename = path.basename(filePath);
-    if (!PUBLIC_FILES.has(basename) && !filePath.includes(path.join(__dirname, 'assets'))) {
-      res.statusCode = 404;
-    }
     if (filePath.endsWith('.html')) {
       res.setHeader('Cache-Control', 'no-cache');
     }
@@ -68,7 +101,7 @@ app.get('/admin', (_req, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
-app.post('/api/order', asyncHandler(async (req, res) => {
+app.post('/api/order', upload.array('attachments', 5), asyncHandler(async (req, res) => {
   const payload = sanitizeSubmission(req.body);
   const missing = [
     ['name', payload.name],
@@ -107,6 +140,7 @@ app.post('/api/order', asyncHandler(async (req, res) => {
     deadline: payload.deadline,
     occasion: payload.occasion,
     details: payload.details,
+    attachments: (req.files || []).map((f) => f.filename),
     notes: '',
   };
 
@@ -333,6 +367,10 @@ app.get('/sizes', (_req, res) => {
   res.sendFile(path.join(__dirname, 'sizes.html'));
 });
 
+app.get('/blog', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'blog.html'));
+});
+
 app.post('/api/track', (req, res) => {
   const email = String(req.body.email || '').trim().toLowerCase();
   if (!email || !isValidEmail(email)) {
@@ -383,6 +421,103 @@ app.get('/api/theme', (_req, res) => {
   } catch (_error) {
     res.json({ ok: true, season: null, banner: null, colors: null });
   }
+});
+
+/* --- Blog admin CRUD --- */
+
+app.get('/api/admin/posts', requireAdmin, (_req, res) => {
+  res.json({ ok: true, posts: store.posts || [] });
+});
+
+app.post('/api/admin/posts', requireAdmin, (req, res) => {
+  const title = String(req.body.title || '').trim().slice(0, 200);
+  const body = String(req.body.body || '').trim().slice(0, 10000);
+  if (!title || !body) {
+    return res.status(400).json({ ok: false, message: 'Title and body are required.' });
+  }
+
+  const post = {
+    id: createId('post'),
+    title,
+    body,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    published: false,
+  };
+
+  if (!store.posts) store.posts = [];
+  store.posts.unshift(post);
+  persistStore();
+  res.json({ ok: true, post });
+});
+
+app.patch('/api/admin/posts/:id', requireAdmin, (req, res) => {
+  if (!store.posts) store.posts = [];
+  const post = store.posts.find((p) => p.id === req.params.id);
+  if (!post) return res.status(404).json({ ok: false, message: 'Post not found.' });
+
+  if (typeof req.body.title === 'string') post.title = req.body.title.trim().slice(0, 200);
+  if (typeof req.body.body === 'string') post.body = req.body.body.trim().slice(0, 10000);
+  if (typeof req.body.published === 'boolean') post.published = req.body.published;
+  post.updatedAt = new Date().toISOString();
+  persistStore();
+  res.json({ ok: true, post });
+});
+
+app.delete('/api/admin/posts/:id', requireAdmin, (req, res) => {
+  if (!store.posts) store.posts = [];
+  const index = store.posts.findIndex((p) => p.id === req.params.id);
+  if (index === -1) return res.status(404).json({ ok: false, message: 'Post not found.' });
+
+  store.posts.splice(index, 1);
+  persistStore();
+  res.json({ ok: true });
+});
+
+app.get('/api/posts', (_req, res) => {
+  const published = (store.posts || []).filter((p) => p.published);
+  res.json({ ok: true, posts: published });
+});
+
+/* --- Admin attachment viewer --- */
+
+app.get('/api/admin/attachments/:filename', requireAdmin, (req, res) => {
+  const filename = path.basename(req.params.filename);
+  const filePath = path.join(UPLOADS_DIR, filename);
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ ok: false, message: 'File not found.' });
+  }
+  res.sendFile(filePath);
+});
+
+/* --- Stripe checkout stub --- */
+
+app.post('/api/checkout', asyncHandler(async (req, res) => {
+  if (!STRIPE_SECRET_KEY) {
+    return res.status(503).json({ ok: false, message: 'Online payments are not configured yet. Please use the order form to request a custom quote.' });
+  }
+
+  // When Stripe is configured, create a checkout session here
+  res.status(503).json({ ok: false, message: 'Checkout is coming soon.' });
+}));
+
+/* --- Sitemap and robots.txt --- */
+
+app.get('/sitemap.xml', (_req, res) => {
+  const pages = ['', '/track', '/sizes', '/blog'];
+  const urls = pages.map((p) =>
+    `  <url><loc>https://corazoncreativeco.org${p}</loc></url>`
+  ).join('\n');
+
+  res.type('application/xml').send(
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>`
+  );
+});
+
+app.get('/robots.txt', (_req, res) => {
+  res.type('text/plain').send(
+    'User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\nSitemap: https://corazoncreativeco.org/sitemap.xml\n'
+  );
 });
 
 app.use((req, res, next) => {
@@ -446,6 +581,7 @@ function ensureDirectory(dirPath) {
 function loadStore() {
   const initialStore = {
     submissions: [],
+    posts: [],
     auth: {
       pendingCodeHash: null,
       pendingEmail: null,
@@ -463,6 +599,7 @@ function loadStore() {
     const parsed = JSON.parse(fs.readFileSync(STORE_FILE, 'utf8'));
     return {
       submissions: Array.isArray(parsed.submissions) ? parsed.submissions : [],
+      posts: Array.isArray(parsed.posts) ? parsed.posts : [],
       auth: {
         pendingCodeHash: parsed.auth?.pendingCodeHash || null,
         pendingEmail: parsed.auth?.pendingEmail || null,
@@ -551,7 +688,7 @@ function isValidEmail(value) {
 }
 
 function formatOrderEmail(submission) {
-  return [
+  const lines = [
     'New Corazon Creative Co. order request',
     '',
     `Name: ${submission.name}`,
@@ -565,7 +702,13 @@ function formatOrderEmail(submission) {
     '',
     'Design details:',
     submission.details,
-  ].join('\n');
+  ];
+
+  if (submission.attachments && submission.attachments.length > 0) {
+    lines.push('', `Attachments: ${submission.attachments.length} file(s) uploaded`);
+  }
+
+  return lines.join('\n');
 }
 
 function formatContactEmail(submission) {

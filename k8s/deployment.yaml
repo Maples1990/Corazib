@@ -57,6 +57,9 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "500m"
+          volumeMounts:
+            - name: corazon-data
+              mountPath: /app/data
           livenessProbe:
             httpGet:
               path: /api/health
@@ -69,3 +72,9 @@ spec:
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 10
+      imagePullSecrets:
+        - name: ghcr-secret
+      volumes:
+        - name: corazon-data
+          persistentVolumeClaim:
+            claimName: corazon-data

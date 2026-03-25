@@ -111,15 +111,29 @@ forms.forEach((form) => {
     }
 
     try {
-      const response = await fetch(form.action, {
-        method: form.method || 'POST',
-        body: JSON.stringify(Object.fromEntries(formData.entries())),
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        credentials: 'same-origin',
-      });
+      const hasFiles = form.querySelector('input[type="file"]');
+      let fetchOptions;
+
+      if (hasFiles) {
+        fetchOptions = {
+          method: form.method || 'POST',
+          body: formData,
+          headers: { Accept: 'application/json' },
+          credentials: 'same-origin',
+        };
+      } else {
+        fetchOptions = {
+          method: form.method || 'POST',
+          body: JSON.stringify(Object.fromEntries(formData.entries())),
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          credentials: 'same-origin',
+        };
+      }
+
+      const response = await fetch(form.action, fetchOptions);
 
       const result = await response.json().catch(() => ({}));
 
@@ -129,6 +143,7 @@ forms.forEach((form) => {
 
       feedback.textContent = result.message || form.dataset.successMessage || 'Message sent successfully.';
       form.reset();
+      if (fileText) fileText.textContent = 'Choose files or drag and drop';
     } catch (error) {
       feedback.textContent = error.message || 'There was a problem sending the form. Please email maria@corazoncreativeco.com directly.';
     } finally {

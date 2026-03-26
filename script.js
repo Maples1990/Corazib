@@ -99,6 +99,28 @@ if (navToggle && siteNav) {
 const fileInput = document.querySelector('.file-upload-input');
 const fileText = document.querySelector('.file-upload-text');
 
+/* --- Gallery filter tabs --- */
+const galleryFilters = document.querySelectorAll('.gallery-filter');
+const galleryCards = document.querySelectorAll('.gallery-card[data-category]');
+
+galleryFilters.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    galleryFilters.forEach((b) => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+
+    const filter = btn.dataset.filter;
+
+    galleryCards.forEach((card) => {
+      const cat = card.dataset.category;
+      if (filter === 'all' || cat === 'all' || cat === filter) {
+        card.classList.remove('is-hidden');
+      } else {
+        card.classList.add('is-hidden');
+      }
+    });
+  });
+});
+
 if (fileInput && fileText) {
   fileInput.addEventListener('change', () => {
     const count = fileInput.files.length;

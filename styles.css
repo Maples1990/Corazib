@@ -295,7 +295,7 @@ main {
 
 .hero-points {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   margin: 28px 0 0;
   padding: 0;
@@ -791,6 +791,7 @@ main {
 .showcase-list {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-content: center;
+  gap: 14px;
 }
 
 .showcase-list div {
@@ -1272,4 +1273,165 @@ main {
 
 .seasonal-banner-close:hover {
   opacity: 1;
+}
+
+/* --- Gallery filter tabs --- */
+.gallery-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.gallery-filter {
+  padding: 10px 18px;
+  border: 1px solid rgba(31, 26, 25, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease, transform 160ms ease, border-color 160ms ease;
+}
+
+.gallery-filter:hover {
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--accent-deep);
+  transform: translateY(-1px);
+}
+
+.gallery-filter.is-active {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 10px 22px rgba(31, 76, 139, 0.18);
+}
+
+.gallery-card {
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+
+.gallery-card.is-hidden {
+  display: none;
+}
+
+/* --- Pricing grid (expanded) --- */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.pricing {
+  padding: 34px;
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+}
+
+.pricing-card {
+  padding: 24px;
+  border: 1px solid rgba(31, 26, 25, 0.08);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow: 0 14px 30px rgba(49, 35, 22, 0.06);
+}
+
+.pricing-amount {
+  margin: 10px 0;
+  font-family: "Fraunces", serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-deep);
+}
+
+/* --- Bundle section --- */
+.bundles {
+  padding: 34px;
+  background:
+    linear-gradient(135deg, rgba(106, 59, 179, 0.05), rgba(212, 191, 116, 0.12)),
+    var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--surface-shadow);
+  backdrop-filter: blur(14px);
+}
+
+.bundle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.bundle-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 26px;
+  border: 1px solid rgba(31, 26, 25, 0.08);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 16px 36px rgba(49, 35, 22, 0.08);
+}
+
+.bundle-card h3 {
+  margin: 0;
+  font-family: "Fraunces", serif;
+  font-size: 1.2rem;
+}
+
+.bundle-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+  flex: 1;
+}
+
+.bundle-card .button {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.bundle-card-accent {
+  background: linear-gradient(180deg, rgba(106, 59, 179, 0.1), rgba(255, 255, 255, 0.7));
+}
+
+/* --- Service subheading --- */
+.service-subheading {
+  margin-top: 28px;
+  margin-bottom: 18px;
+}
+
+.service-grid-products {
+  margin-bottom: 8px;
+}
+
+/* --- Responsive adjustments for new sections --- */
+@media (max-width: 1040px) {
+  .pricing-grid,
+  .bundle-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .pricing-grid,
+  .bundle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bundles {
+    padding: 24px;
+    border-radius: 26px;
+  }
+
+  .gallery-filters {
+    gap: 8px;
+  }
+
+  .gallery-filter {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
 }

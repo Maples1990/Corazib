@@ -6,10 +6,10 @@
   <title>Corazon Creative Co.</title>
   <meta
     name="description"
-    content="Corazon Creative Co. creates custom shirts and sweaters for teams, businesses, gifts, and meaningful moments with thoughtful design and care."
+    content="Corazon Creative Co. creates custom apparel, cups, decals, and table toppers for teams, businesses, gifts, and meaningful moments with thoughtful design and care."
   >
-  <meta property="og:title" content="Corazon Creative Co. — Custom Apparel">
-  <meta property="og:description" content="Faith-led custom shirts and sweaters for teams, businesses, gifts, and meaningful moments. Designed with care by Maria.">
+  <meta property="og:title" content="Corazon Creative Co. — Custom Apparel &amp; Goods">
+  <meta property="og:description" content="Faith-led custom apparel, cups, decals, and table toppers for teams, businesses, gifts, and meaningful moments. Designed with care by Maria.">
   <meta property="og:image" content="https://corazoncreativeco.org/assets/images/og-image.png">
   <meta property="og:url" content="https://corazoncreativeco.org">
   <meta property="og:type" content="website">
@@ -27,7 +27,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Corazon Creative Co.",
-    "description": "Custom shirts and sweaters for teams, businesses, gifts, and meaningful moments. Designed with care by Maria.",
+    "description": "Custom apparel, cups, decals, and table toppers for teams, businesses, gifts, and meaningful moments. Designed with care by Maria.",
     "url": "https://corazoncreativeco.org",
     "logo": "https://corazoncreativeco.org/assets/images/logo.jpg",
     "image": "https://corazoncreativeco.org/assets/images/og-image.png",
@@ -38,8 +38,8 @@
       "@type": "Offer",
       "itemOffered": {
         "@type": "Service",
-        "name": "Custom Apparel Design",
-        "description": "Custom-designed shirts, sweaters, and apparel for teams, businesses, gifts, and events."
+        "name": "Custom Apparel & Goods Design",
+        "description": "Custom-designed shirts, sweaters, cups, decals, table toppers, and more for teams, businesses, gifts, and events."
       }
     }
   }
@@ -65,6 +65,7 @@
         <a href="#gallery">Gallery</a>
         <a href="#services">Services</a>
         <a href="#pricing">Pricing</a>
+        <a href="#bundles">Bundles</a>
         <a href="#process">Process</a>
         <a href="#contact">Contact</a>
         <a href="/track">Track Order</a>
@@ -75,21 +76,22 @@
     <main id="top">
       <section class="hero reveal">
         <div class="hero-copy">
-          <p class="eyebrow">Faith-led custom apparel</p>
+          <p class="eyebrow">Faith-led custom apparel &amp; goods</p>
           <h1>Custom pieces that feel personal, polished, and full of purpose.</h1>
           <p class="hero-text">
-            Corazon Creative Co. brings Maria's work into a stronger brand experience with custom shirts and sweaters
-            for businesses, teams, gifts, ministries, and meaningful life moments.
+            Corazon Creative Co. brings Maria's work into a stronger brand experience with custom apparel, cups,
+            decals, table toppers, and more for businesses, teams, gifts, ministries, and meaningful life moments.
           </p>
           <div class="hero-actions">
             <a class="button button-primary" href="#order">Start an order</a>
             <a class="button button-secondary" href="#gallery">See featured work</a>
           </div>
-          <p class="hero-note">Designed with care for adults and youth, from one special piece to coordinated group apparel.</p>
+          <p class="hero-note">Designed with care for adults and youth, from one special piece to coordinated group orders.</p>
           <ul class="hero-points" aria-label="Key offerings">
             <li>Custom shirts and sweaters</li>
-            <li>Adult and youth sizing</li>
-            <li>Business, team, gift, and event designs</li>
+            <li>Cups, tumblers, and drinkware</li>
+            <li>Vinyl decals and stickers</li>
+            <li>Table toppers and event décor</li>
           </ul>
         </div>
 
@@ -125,7 +127,7 @@
         <div class="hero-metrics" aria-label="Highlights at a glance">
           <article>
             <strong>Adults + Youth</strong>
-            <span>Shirts and sweaters made for a full range of sizes</span>
+            <span>Apparel, cups, decals, and décor for the whole crew</span>
           </article>
           <article>
             <strong>Order Online</strong>
@@ -140,7 +142,7 @@
 
       <section class="intro-band reveal">
         <p>
-          Inspired hands. Faithful heart. Apparel created with intention.
+          Inspired hands. Faithful heart. Custom goods created with intention.
         </p>
       </section>
 
@@ -149,13 +151,21 @@
           <p class="eyebrow">Featured work</p>
           <h2>Featured pieces from Corazon Creative Co.</h2>
           <p>
-            The real brand and product images are now built into the page so visitors can immediately see the identity,
+            Real brand and product images so visitors can immediately see the identity,
             style, and message behind the work.
           </p>
         </div>
 
+        <div class="gallery-filters" role="tablist" aria-label="Filter gallery by category">
+          <button class="gallery-filter is-active" data-filter="all">All</button>
+          <button class="gallery-filter" data-filter="apparel">Apparel</button>
+          <button class="gallery-filter" data-filter="drinkware">Drinkware</button>
+          <button class="gallery-filter" data-filter="decals">Decals</button>
+          <button class="gallery-filter" data-filter="decor">Décor</button>
+        </div>
+
         <div class="gallery-grid">
-          <article class="gallery-card gallery-card-wide gallery-card-scene">
+          <article class="gallery-card gallery-card-wide gallery-card-scene" data-category="all">
             <div class="gallery-media gallery-photo-frame">
               <div class="media-badge">Brand display</div>
               <img
@@ -170,7 +180,7 @@
             </div>
           </article>
 
-          <article class="gallery-card">
+          <article class="gallery-card" data-category="all">
             <div class="gallery-media gallery-photo-frame gallery-photo-logo">
               <div class="media-badge">Logo</div>
               <img
@@ -185,7 +195,7 @@
             </div>
           </article>
 
-          <article class="gallery-card gallery-card-wide">
+          <article class="gallery-card gallery-card-wide" data-category="apparel">
             <div class="gallery-media gallery-photo-frame">
               <div class="media-badge">You Matter crewneck</div>
               <img
@@ -204,20 +214,47 @@
 
       <section class="services reveal" id="services">
         <div class="section-heading">
-          <p class="eyebrow">Services</p>
-          <h2>Custom apparel made around your message</h2>
+          <p class="eyebrow">What we make</p>
+          <h2>Custom goods made around your message</h2>
+        </div>
+
+        <div class="service-grid service-grid-products">
+          <article class="service-panel">
+            <span class="service-kicker">Apparel</span>
+            <h3>Shirts &amp; Sweaters</h3>
+            <p>Custom shirts, crewnecks, and hoodies for adults and youth — perfect for teams, businesses, gifts, and events.</p>
+          </article>
+          <article class="service-panel">
+            <span class="service-kicker">Drinkware</span>
+            <h3>Cups &amp; Tumblers</h3>
+            <p>Personalized tumblers, mugs, and cups with names, logos, faith messages, or custom artwork.</p>
+          </article>
+          <article class="service-panel">
+            <span class="service-kicker">Decals</span>
+            <h3>Decals &amp; Stickers</h3>
+            <p>Vinyl decals and stickers for cars, laptops, water bottles, walls, and more — cut to your design.</p>
+          </article>
+          <article class="service-panel">
+            <span class="service-kicker">Décor</span>
+            <h3>Table Toppers &amp; Displays</h3>
+            <p>Custom table signs, centerpieces, and event displays that set the tone for any gathering or celebration.</p>
+          </article>
+        </div>
+
+        <div class="section-heading service-subheading">
+          <p class="eyebrow">Who it's for</p>
         </div>
 
         <div class="service-grid">
           <article class="service-panel">
             <span class="service-kicker">01</span>
             <h3>For teams</h3>
-            <p>Create apparel that feels united, polished, and easy for your whole group to wear confidently.</p>
+            <p>Matching apparel and goods that feel united, polished, and easy for your whole group.</p>
           </article>
           <article class="service-panel">
             <span class="service-kicker">02</span>
             <h3>For businesses</h3>
-            <p>Branded apparel that feels intentional, memorable, and consistent with your identity.</p>
+            <p>Branded merch that feels intentional, memorable, and consistent with your identity.</p>
           </article>
           <article class="service-panel">
             <span class="service-kicker">03</span>
@@ -226,8 +263,8 @@
           </article>
           <article class="service-panel">
             <span class="service-kicker">04</span>
-            <h3>For adults and youth</h3>
-            <p>Available on shirts and sweaters with sizing options for adults and youth.</p>
+            <h3>For events</h3>
+            <p>Coordinated apparel, table toppers, and décor to make your event feel polished and on-brand.</p>
           </article>
         </div>
       </section>
@@ -237,7 +274,7 @@
           <p class="eyebrow">Starting points</p>
           <h2>Simple pricing guidance before you order</h2>
           <p>
-            Final pricing depends on garment choice, quantity, artwork complexity, and print placement, but these
+            Final pricing depends on product type, quantity, artwork complexity, and customization, but these
             ranges give customers a clearer sense of where to start.
           </p>
         </div>
@@ -247,7 +284,21 @@
             <span class="service-kicker">Single piece</span>
             <h3>Personal custom item</h3>
             <p class="pricing-amount">Starting around $25+</p>
-            <p>Best for one special shirt or sweater with a custom phrase, encouragement message, or gift design.</p>
+            <p>Best for one special shirt, sweater, or tumbler with a custom phrase, encouragement message, or gift design.</p>
+          </article>
+
+          <article class="pricing-card">
+            <span class="service-kicker">Cups &amp; Tumblers</span>
+            <h3>Custom drinkware</h3>
+            <p class="pricing-amount">Starting around $15–$25+</p>
+            <p>Personalized tumblers and cups with names, logos, or custom artwork — great for gifts and branded merch.</p>
+          </article>
+
+          <article class="pricing-card">
+            <span class="service-kicker">Decals &amp; Stickers</span>
+            <h3>Vinyl decals</h3>
+            <p class="pricing-amount">Starting around $5–$12+</p>
+            <p>Custom vinyl decals and stickers for cars, laptops, bottles, walls, and event items.</p>
           </article>
 
           <article class="pricing-card">
@@ -258,10 +309,50 @@
           </article>
 
           <article class="pricing-card">
-            <span class="service-kicker">Business or team</span>
-            <h3>Branded apparel order</h3>
+            <span class="service-kicker">Table toppers</span>
+            <h3>Event décor &amp; displays</h3>
             <p class="pricing-amount">Custom quote</p>
-            <p>For larger quantity orders, business merch, team apparel, or repeat orders that need a more tailored quote.</p>
+            <p>Custom table signs, centerpieces, and display pieces priced based on size, materials, and design complexity.</p>
+          </article>
+
+          <article class="pricing-card">
+            <span class="service-kicker">Business or team</span>
+            <h3>Branded bulk order</h3>
+            <p class="pricing-amount">Custom quote</p>
+            <p>For larger quantity orders, branded merch across product types, team apparel, or repeat orders.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="bundles reveal" id="bundles">
+        <div class="section-heading">
+          <p class="eyebrow">Bundles</p>
+          <h2>Curated packages for bigger impact</h2>
+          <p>
+            Combine products for a cohesive look across your event, business, or gift. Each bundle is customized to your design and message.
+          </p>
+        </div>
+
+        <div class="bundle-grid">
+          <article class="bundle-card">
+            <span class="service-kicker">Event package</span>
+            <h3>Shirts + Table Topper + Decals</h3>
+            <p>Matching apparel, a branded table display, and vinyl decals — everything you need for a church event, birthday, or team gathering.</p>
+            <a class="button button-secondary" href="#order">Start an order</a>
+          </article>
+
+          <article class="bundle-card">
+            <span class="service-kicker">Business starter</span>
+            <h3>Shirts + Tumblers + Decals</h3>
+            <p>Branded shirts, custom tumblers for the team, and logo decals — a complete starter kit for your business or ministry.</p>
+            <a class="button button-secondary" href="#order">Start an order</a>
+          </article>
+
+          <article class="bundle-card bundle-card-accent">
+            <span class="service-kicker">Gift box</span>
+            <h3>Cup + Decal + Shirt</h3>
+            <p>A thoughtful, coordinated gift set with a custom tumbler, matching decal, and a personalized shirt — perfect for birthdays, thank-you gifts, or encouragement.</p>
+            <a class="button button-secondary" href="#order">Start an order</a>
           </article>
         </div>
       </section>
@@ -300,12 +391,15 @@
                 <input type="tel" name="phone">
               </label>
               <label>
-                Apparel type
-                <select name="apparel" required>
+                What are you looking for?
+                <select name="product_type" required>
                   <option value="">Select one</option>
-                  <option>Shirt</option>
-                  <option>Sweater</option>
-                  <option>Both</option>
+                  <option>Shirts / Sweaters</option>
+                  <option>Cups / Tumblers</option>
+                  <option>Decals / Stickers</option>
+                  <option>Table Toppers / Décor</option>
+                  <option>Bundle / Multiple items</option>
+                  <option>Not sure yet</option>
                 </select>
               </label>
               <label>
@@ -315,6 +409,7 @@
                   <option>Adults</option>
                   <option>Youth</option>
                   <option>Mixed sizes</option>
+                  <option>N/A</option>
                 </select>
               </label>
               <label>
@@ -402,12 +497,12 @@
 
         <div class="faq-grid">
           <article class="faq-card">
-            <h3>Do you make shirts and sweaters?</h3>
-            <p>Yes. Corazon Creative Co. offers custom shirts and sweaters for adults and youth.</p>
+            <h3>What products do you offer?</h3>
+            <p>Corazon Creative Co. offers custom shirts, sweaters, cups, tumblers, vinyl decals, stickers, table toppers, and event décor for adults and youth.</p>
           </article>
           <article class="faq-card">
             <h3>Can I order for a business or a team?</h3>
-            <p>Yes. Business merch, team apparel, ministry groups, and event orders are all a good fit.</p>
+            <p>Yes. Business merch, team apparel, branded cups, decals, ministry groups, and event orders are all a good fit.</p>
           </article>
           <article class="faq-card">
             <h3>What if I only have an idea and not a finished design?</h3>
@@ -431,7 +526,7 @@
       <section class="showcase reveal" aria-label="Example use cases">
         <div class="showcase-copy">
           <p class="eyebrow">Made for real moments</p>
-          <h2>From business branding to encouragement pieces that carry a message</h2>
+          <h2>From business branding to custom goods that carry a message</h2>
           <p>
             Corazon Creative Co. is positioned here as a creative brand, not just a generic custom print page. The
             layout supports heartfelt work, faith-led messaging, and clean presentation for businesses and families.
@@ -442,21 +537,23 @@
           <div>Business merch</div>
           <div>Sports teams</div>
           <div>Birthday sweaters</div>
+          <div>Custom cups</div>
+          <div>Vinyl decals</div>
+          <div>Table toppers</div>
           <div>Youth events</div>
-          <div>Family gifts</div>
           <div>Church groups</div>
         </div>
 
         <aside class="showcase-quote">
           <p>"You imagine it. Maria designs it."</p>
-          <span>Custom apparel shaped with care, purpose, and attention to detail.</span>
+          <span>Custom apparel, cups, decals, and décor shaped with care, purpose, and attention to detail.</span>
         </aside>
       </section>
 
       <section class="contact reveal" id="contact">
         <div class="contact-panel">
           <p class="eyebrow">Contact</p>
-          <h2>Bring your apparel idea to Corazon Creative Co.</h2>
+          <h2>Bring your idea to Corazon Creative Co.</h2>
           <p>
             The order form above is the main intake path, and this contact form gives people a simple way to ask
             questions, check availability, or reach out before placing an order.
@@ -526,7 +623,7 @@
         <a href="/terms">Terms of Service</a>
       </div>
       <div class="footer-meta">
-        <p>Custom apparel designed with care, purpose, and attention to detail.</p>
+        <p>Custom apparel and goods designed with care, purpose, and attention to detail.</p>
         <a class="footer-admin-link" href="/admin">Admin</a>
       </div>
     </footer>

@@ -120,7 +120,8 @@ a {
 .brand-logo {
   width: 64px;
   height: 64px;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 4px;
   border-radius: 20px;
   border: 1px solid rgba(31, 26, 25, 0.08);
   box-shadow: 0 16px 38px rgba(62, 48, 23, 0.16);
@@ -924,7 +925,8 @@ main {
 .footer-logo {
   width: 58px;
   height: 58px;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 4px;
   border-radius: 18px;
   background: white;
 }
@@ -1433,5 +1435,48 @@ main {
   .gallery-filter {
     padding: 8px 14px;
     font-size: 0.85rem;
+  }
+}
+
+.service-panel-image {
+  display: block;
+  width: 100%;
+  height: 190px;
+  margin: 0 0 16px;
+  border-radius: 18px;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.bundle-card-image {
+  display: block;
+  width: 100%;
+  height: 190px;
+  margin: 0 0 12px;
+  border-radius: 18px;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.showcase-photo-strip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.showcase-photo-strip img {
+  display: block;
+  width: 100%;
+  height: 160px;
+  border-radius: 18px;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 14px 30px rgba(49, 35, 22, 0.06);
+}
+
+@media (max-width: 720px) {
+  .showcase-photo-strip {
+    grid-template-columns: 1fr;
   }
 }

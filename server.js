@@ -50,7 +50,7 @@ const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
 const DB_FILE = path.join(DATA_DIR, 'corazon.db');
 const STORE_FILE = path.join(DATA_DIR, 'store.json');
 const ANALYTICS_FILE = path.join(DATA_DIR, 'analytics.json');
-const PUBLIC_FILES = new Set(['index.html', 'styles.css', 'script.js', 'admin.html', 'admin.css', 'admin.js', 'track.html', 'sizes.html', 'blog.html', '404.html', 'privacy.html', 'terms.html', 'manifest.json']);
+const PUBLIC_FILES = new Set(['index.html', 'styles.css', 'script.js', 'admin.html', 'admin.css', 'admin.js', 'track.html', 'track-page.js', 'sizes.html', 'blog.html', 'blog-page.js', '404.html', 'privacy.html', 'terms.html', 'manifest.json']);
 
 ensureDirectory(DATA_DIR);
 ensureDirectory(UPLOADS_DIR);

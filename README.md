@@ -1,6 +1,6 @@
 # Corazon Creative Co.
 
-Corazon Creative Co. is a custom apparel website with a public marketing page, secure order and contact forms, and a Maria-only admin dashboard.
+Corazon Creative Co. is a custom apparel website with a public marketing page, secure order and contact forms, and an owner-only admin dashboard.
 
 ## Run locally
 
@@ -37,12 +37,12 @@ The dashboard is available at `/admin`.
 
 Local development behavior:
 
-- Request a sign-in code using Maria's email
+- Request a sign-in code using the admin email
 - Because `ALLOW_DEV_ADMIN_CODE_RESPONSE=true`, the one-time code is returned in the API response for testing
 
 Production behavior:
 
-- Maria requests a sign-in code
+- The admin requests a sign-in code
 - The code is emailed to `maria@corazoncreativeco.com`
 - After verification, the dashboard can review submissions and update status or notes
 

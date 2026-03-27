@@ -95,7 +95,10 @@ app.use(express.static(__dirname, {
   dotfiles: 'deny',
   setHeaders(res, filePath) {
     if (filePath.endsWith('.html')) {
-      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+      res.setHeader('Surrogate-Control', 'no-store');
+      res.setHeader('CDN-Cache-Control', 'no-store');
+      res.setHeader('Cloudflare-CDN-Cache-Control', 'no-store');
     }
   },
 }));
@@ -162,7 +165,7 @@ app.post('/api/order', upload.array('attachments', 5), asyncHandler(async (req, 
     text: formatOrderConfirmationEmail(submission),
   });
 
-  res.json({ ok: true, message: 'Order request sent successfully. Maria will receive it by email.' });
+  res.json({ ok: true, message: 'Order request sent successfully. Our team will follow up by email.' });
 }));
 
 app.post('/api/contact', asyncHandler(async (req, res) => {
@@ -210,7 +213,7 @@ app.post('/api/contact', asyncHandler(async (req, res) => {
     text: formatContactConfirmationEmail(submission),
   });
 
-  res.json({ ok: true, message: 'Message sent successfully. Maria will receive it by email.' });
+  res.json({ ok: true, message: 'Message sent successfully. Our team will follow up by email.' });
 }));
 
 app.post('/api/admin/request-code', asyncHandler(async (req, res) => {
@@ -843,7 +846,7 @@ function formatOrderConfirmationEmail(submission) {
   return [
     `Hi ${submission.name},`,
     '',
-    'Thank you for your order request with Corazon Creative Co.! Maria has received your details and will follow up with you soon to discuss your design, sizing, and next steps.',
+    'Thank you for your order request with Corazon Creative Co.! We have received your details and will follow up with you soon to discuss your design, sizing, and next steps.',
     '',
     'Here\'s a summary of what you submitted:',
     '',
@@ -868,7 +871,7 @@ function formatContactConfirmationEmail(submission) {
   return [
     `Hi ${submission.name},`,
     '',
-    'Thank you for reaching out to Corazon Creative Co.! Maria has received your message and will get back to you as soon as possible.',
+    'Thank you for reaching out to Corazon Creative Co.! We have received your message and will get back to you as soon as possible.',
     '',
     `Your message regarding "${submission.subject}" has been received.`,
     '',
@@ -883,19 +886,19 @@ function formatContactConfirmationEmail(submission) {
 const STATUS_EMAIL_MAP = {
   reviewed: {
     subject: 'Your request has been reviewed — Corazon Creative Co.',
-    body: 'Maria has reviewed your request and will be reaching out soon to discuss the details.',
+    body: 'Your request has been reviewed and we will be reaching out soon to discuss the details.',
   },
   'in-design': {
     subject: 'Your design is in progress — Corazon Creative Co.',
-    body: 'Great news! Maria has started working on your design. She\'ll follow up with proofs or questions as things take shape.',
+    body: 'Great news! Your design is now in progress. We\'ll follow up with proofs or questions as things take shape.',
   },
   'in-production': {
     subject: 'Your order is in production — Corazon Creative Co.',
-    body: 'Your apparel is now in production! Maria will let you know when everything is ready.',
+    body: 'Your apparel is now in production! We will let you know when everything is ready.',
   },
   completed: {
     subject: 'Your order is complete — Corazon Creative Co.',
-    body: 'Your order is complete and ready! Maria will reach out with pickup or delivery details.',
+    body: 'Your order is complete and ready! We will reach out with pickup or delivery details.',
   },
 };
 

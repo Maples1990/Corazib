@@ -73,7 +73,7 @@ Common patterns by host:
 
 ## Before going live
 
-1. Set SMTP credentials so Maria receives login codes and notifications.
+1. Set SMTP credentials so the admin receives login codes and notifications.
 2. Confirm HTTPS is active on the host.
 3. Confirm `APP_BASE_URL` matches the exact live domain.
 4. Turn off `ALLOW_DEV_ADMIN_CODE_RESPONSE`.

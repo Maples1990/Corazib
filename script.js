@@ -1,6 +1,12 @@
 const revealedSections = document.querySelectorAll('.reveal');
 const forms = document.querySelectorAll('.js-submit-form');
 
+/* --- CSRF token helper --- */
+function getCsrfToken() {
+  const match = document.cookie.match(/(?:^|;\s*)_csrf=([^;]+)/);
+  return match ? decodeURIComponent(match[1]) : '';
+}
+
 /* --- Pageview analytics beacon --- */
 (function trackPageview() {
   try {
@@ -11,7 +17,7 @@ const forms = document.querySelectorAll('.js-submit-form');
     };
     fetch('/api/track/pageview', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfToken() },
       body: JSON.stringify(payload),
       credentials: 'same-origin',
     }).catch(() => {});
@@ -153,11 +159,13 @@ forms.forEach((form) => {
       const hasFiles = form.querySelector('input[type="file"]');
       let fetchOptions;
 
+      const csrfToken = getCsrfToken();
+
       if (hasFiles) {
         fetchOptions = {
           method: form.method || 'POST',
           body: formData,
-          headers: { Accept: 'application/json' },
+          headers: { Accept: 'application/json', 'X-CSRF-Token': csrfToken },
           credentials: 'same-origin',
         };
       } else {
@@ -167,6 +175,7 @@ forms.forEach((form) => {
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
+            'X-CSRF-Token': csrfToken,
           },
           credentials: 'same-origin',
         };

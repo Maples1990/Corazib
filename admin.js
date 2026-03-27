@@ -273,11 +273,15 @@ function escapeHtml(value) {
 }
 
 async function api(url, options = {}) {
+  const csrfMatch = document.cookie.match(/(?:^|;\s*)_csrf=([^;]+)/);
+  const csrfToken = csrfMatch ? decodeURIComponent(csrfMatch[1]) : '';
+
   const response = await fetch(url, {
     method: options.method || 'GET',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      'X-CSRF-Token': csrfToken,
     },
     credentials: 'same-origin',
     body: options.body ? JSON.stringify(options.body) : undefined,

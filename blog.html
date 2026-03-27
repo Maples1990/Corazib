@@ -8,49 +8,206 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260327">
+  <link rel="stylesheet" href="styles.css?v=20260327b">
   <style>
     body {
       background: linear-gradient(170deg, var(--bg-top) 0%, var(--bg) 40%, var(--bg-bottom) 100%);
       min-height: 100vh;
     }
 
-    .blog-shell {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 80px 24px 60px;
+    /* --- Header bar --- */
+    .blog-header-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 24px;
+      background: rgba(255, 251, 246, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(31, 26, 25, 0.06);
     }
 
-    .blog-back {
+    .blog-header-bar .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .blog-header-bar .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .blog-header-bar .brand-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .blog-header-bar .brand-tagline {
+      display: none;
+    }
+
+    @media (min-width: 600px) {
+      .blog-header-bar .brand-tagline {
+        display: inline;
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-left: 6px;
+      }
+    }
+
+    /* --- Hero banner --- */
+    .blog-hero {
+      text-align: center;
+      padding: 56px 24px 40px;
+    }
+
+    .blog-hero-icon {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 28px;
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: var(--accent-deep);
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(106, 59, 179, 0.12), rgba(31, 76, 139, 0.10));
+      font-size: 1.6rem;
     }
 
     .blog-title {
-      margin: 0 0 8px;
+      margin: 0 0 10px;
       font-family: "Fraunces", serif;
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
       font-weight: 700;
-      line-height: 1;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
     }
 
     .blog-subtitle {
-      margin: 0 0 40px;
+      margin: 0 auto;
+      max-width: 480px;
       color: var(--muted);
       line-height: 1.7;
+      font-size: 0.95rem;
     }
 
+    /* --- Post list --- */
+    .blog-shell {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .blog-posts {
+      display: grid;
+      gap: 24px;
+    }
+
+    .blog-post {
+      position: relative;
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: 0 8px 28px rgba(49, 35, 22, 0.06);
+      backdrop-filter: blur(8px);
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+    }
+
+    .blog-post:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(49, 35, 22, 0.10);
+    }
+
+    .blog-post::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 24px;
+      right: 24px;
+      height: 3px;
+      border-radius: 0 0 3px 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .blog-post:hover::before {
+      opacity: 1;
+    }
+
+    .blog-post time {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent-deep);
+      background: rgba(31, 76, 139, 0.08);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .blog-post h2 {
+      margin: 0 0 16px;
+      font-family: "Fraunces", serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .blog-post p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 0.94rem;
+    }
+
+    .blog-post p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* --- CTA at bottom --- */
+    .blog-cta {
+      margin-top: 48px;
+      padding: 40px 32px;
+      text-align: center;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(106, 59, 179, 0.06), rgba(31, 76, 139, 0.06));
+      border: 1px solid rgba(106, 59, 179, 0.10);
+    }
+
+    .blog-cta h3 {
+      margin: 0 0 8px;
+      font-family: "Fraunces", serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .blog-cta p {
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.92rem;
+    }
+
+    /* --- Placeholder (no posts) --- */
     .blog-placeholder {
-      padding: 48px 32px;
+      padding: 56px 32px;
       text-align: center;
       border: 1px dashed rgba(31, 26, 25, 0.15);
       border-radius: var(--radius-lg);
-      background: rgba(255, 255, 255, 0.5);
+      background: var(--surface);
     }
 
     .blog-placeholder-icon {
@@ -77,54 +234,37 @@
       display: inline-flex;
     }
 
-    .blog-posts {
-      display: grid;
-      gap: 28px;
+    /* --- Entrance animations --- */
+    .blog-hero { opacity: 0; animation: fadeInUp 600ms 100ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+    .blog-posts { opacity: 0; animation: fadeInUp 600ms 300ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+    .blog-cta { opacity: 0; animation: fadeInUp 600ms 500ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .blog-post {
-      padding: 28px;
-      border: 1px solid rgba(31, 26, 25, 0.08);
-      border-radius: var(--radius-lg);
-      background: rgba(255, 255, 255, 0.6);
-      box-shadow: 0 14px 30px rgba(49, 35, 22, 0.06);
-    }
-
-    .blog-post time {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .blog-post h2 {
-      margin: 0 0 14px;
-      font-family: "Fraunces", serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      line-height: 1.3;
-    }
-
-    .blog-post p {
-      margin: 0 0 10px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .blog-post p:last-child {
-      margin-bottom: 0;
+    @media (prefers-reduced-motion: reduce) {
+      .blog-hero, .blog-posts, .blog-cta { animation: none; opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <div class="blog-shell">
-    <a class="blog-back" href="/">← Back to Corazon Creative Co.</a>
-    <h1 class="blog-title">Updates</h1>
-    <p class="blog-subtitle">News, behind-the-scenes looks, and announcements from Corazon Creative Co.</p>
+  <div class="blog-header-bar">
+    <a class="brand" href="/">
+      <img class="brand-logo" src="assets/images/corazon-logo-poster.jpg" alt="Corazon Creative Co.">
+      <span class="brand-name">Corazon Creative Co.</span>
+      <span class="brand-tagline">Inspired Hands. Faithful Heart.</span>
+    </a>
+  </div>
 
+  <div class="blog-hero">
+    <div class="blog-hero-icon" aria-hidden="true">✦</div>
+    <h1 class="blog-title">Updates &amp; Inspiration</h1>
+    <p class="blog-subtitle">Behind-the-scenes looks, custom apparel tips, and news from Corazon Creative Co.</p>
+  </div>
+
+  <div class="blog-shell">
     <div class="blog-posts" id="blog-posts"></div>
 
     <div class="blog-placeholder" id="blog-placeholder" hidden>
@@ -132,6 +272,12 @@
       <h2>Coming soon</h2>
       <p>We are working on sharing updates here — new designs, seasonal drops, behind-the-scenes process, and more. Check back soon.</p>
       <a class="button button-primary" href="/#order">Start an order</a>
+    </div>
+
+    <div class="blog-cta">
+      <h3>Ready to create something custom?</h3>
+      <p>Whether it's for your team, a gift, or a special occasion — we'd love to help.</p>
+      <a class="button button-primary" href="/#order">Start Your Order</a>
     </div>
   </div>
 

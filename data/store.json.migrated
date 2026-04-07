@@ -1,0 +1,9 @@
+{
+  "submissions": [],
+  "auth": {
+    "pendingCodeHash": null,
+    "pendingEmail": null,
+    "pendingExpiresAt": null,
+    "sessions": {}
+  }
+}

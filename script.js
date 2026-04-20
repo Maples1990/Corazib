@@ -140,6 +140,24 @@ if (fileInput && fileText) {
   });
 }
 
+document.querySelectorAll('[data-copy-email]').forEach((button) => {
+  button.addEventListener('click', async () => {
+    const email = button.getAttribute('data-copy-email');
+    if (!email) return;
+
+    try {
+      await navigator.clipboard.writeText(email);
+      const originalText = button.textContent;
+      button.textContent = 'Copied';
+      window.setTimeout(() => {
+        button.textContent = originalText;
+      }, 1800);
+    } catch (_error) {
+      window.prompt('Copy this email address:', email);
+    }
+  });
+});
+
 forms.forEach((form) => {
   const feedback = document.createElement('p');
   feedback.className = 'form-feedback';

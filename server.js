@@ -39,7 +39,13 @@ const APP_ORIGIN = new URL(APP_BASE_URL).origin;
 const APP_ALLOWED_ORIGINS = buildAllowedOrigins(APP_ORIGIN, process.env.APP_ALLOWED_ORIGINS || '');
 const CANONICAL_HOST = normalizeHost(process.env.CANONICAL_HOST || '');
 const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'maria@corazoncreativeco.com').toLowerCase();
-const SESSION_SECRET = process.env.SESSION_SECRET || 'replace-this-in-production';
+const SESSION_SECRET = process.env.SESSION_SECRET || (() => {
+  if (process.env.NODE_ENV === 'production') {
+    console.error('WARNING: SESSION_SECRET not set — using random secret (sessions will not persist across restarts)');
+    return crypto.randomBytes(32).toString('hex');
+  }
+  return 'dev-only-secret';
+})();
 const ALLOW_DEV_ADMIN_CODE_RESPONSE = process.env.ALLOW_DEV_ADMIN_CODE_RESPONSE === 'true';
 const ALLOWED_STATUSES = new Set(['new', 'reviewed', 'contacted', 'in-design', 'in-production', 'completed']);
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || '';
@@ -252,6 +258,14 @@ async function getFromS3(filename) {
 
 const transporter = createTransporter();
 const rateLimits = new Map();
+
+// Prune expired rate-limit entries every 5 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, entry] of rateLimits) {
+    if (now > entry.expiresAt) rateLimits.delete(key);
+  }
+}, 5 * 60 * 1000).unref();
 
 function queueEmail({ to, from, subject, text }) {
   const fromAddr = from || process.env.SMTP_FROM || ADMIN_EMAIL;
@@ -944,10 +958,6 @@ app.use((req, res, next) => {
   return res.status(404).json({ ok: false, message: 'Not found.' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Corazon Creative Co. running at ${APP_BASE_URL}`);
-});
-
 app.use((error, _req, res, _next) => {
   if (error && error.code === 'SPAM_REJECTED') {
     return res.status(400).json({ ok: false, message: 'Submission rejected.' });
@@ -955,6 +965,10 @@ app.use((error, _req, res, _next) => {
 
   console.error(error);
   return res.status(500).json({ ok: false, message: 'Something went wrong. Please try again.' });
+});
+
+app.listen(PORT, () => {
+  console.log(`Corazon Creative Co. running at ${APP_BASE_URL}`);
 });
 
 /* ------------------------------------------------------------------ */
@@ -1463,9 +1477,9 @@ function formatOrderConfirmationEmail(submission) {
     '',
     'If you have any questions in the meantime, feel free to reply to this email.',
     '',
-    'Blessings,',
+    'Thank you,',
     'Corazon Creative Co.',
-    'Inspired Hands. Faithful Heart.',
+    'Inspired Hands. Creative Heart.',
   ].join('\n');
 }
 
@@ -1479,9 +1493,9 @@ function formatContactConfirmationEmail(submission) {
     '',
     'If you need anything else, feel free to reply to this email.',
     '',
-    'Blessings,',
+    'Thank you,',
     'Corazon Creative Co.',
-    'Inspired Hands. Faithful Heart.',
+    'Inspired Hands. Creative Heart.',
   ].join('\n');
 }
 
@@ -1519,9 +1533,9 @@ function formatStatusUpdateEmail(submission, status) {
       '',
       'If you have any questions, feel free to reply to this email.',
       '',
-      'Blessings,',
+      'Thank you,',
       'Corazon Creative Co.',
-      'Inspired Hands. Faithful Heart.',
+      'Inspired Hands. Creative Heart.',
     ].join('\n'),
   };
 }

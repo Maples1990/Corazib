@@ -1,8 +1,9 @@
 {
   "name": "Corazon Creative Co.",
   "short_name": "Corazon",
-  "description": "Custom shirts and sweaters for teams, businesses, gifts, and meaningful moments.",
+  "description": "Custom apparel, cups, decals, and table toppers for teams, businesses, gifts, and meaningful moments.",
   "start_url": "/",
+  "id": "/",
   "display": "standalone",
   "background_color": "#fffaf5",
   "theme_color": "#c24e3a",

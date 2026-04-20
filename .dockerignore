@@ -5,3 +5,5 @@ npm-debug.log*
 .env
 data/store.json
 data/uploads
+server.bak.js
+server.old.js

@@ -1,0 +1,30 @@
+services:
+  corazon:
+    image: corazon:latest
+    container_name: corazon
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - APP_BASE_URL=https://corazoncreativeco.org
+      - CANONICAL_HOST=corazoncreativeco.org
+      - APP_ALLOWED_ORIGINS=https://www.corazoncreativeco.org
+      - ADMIN_EMAIL=maria@corazoncreativeco.com
+      - SESSION_SECRET=corazon-prod-8f3k2m9x7q4w1p5t6r
+      - ALLOW_DEV_ADMIN_CODE_RESPONSE=false
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_SECURE=false
+      - SMTP_USER=maria@corazoncreativeco.com
+      - SMTP_PASS=sgmlrwyjwoardnef
+      - SMTP_FROM=maria@corazoncreativeco.org
+    volumes:
+      - /root/corazon/data:/app/data
+    ports:
+      - '127.0.0.1:3001:3000'
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -q -O /dev/null http://127.0.0.1:3000/api/health || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

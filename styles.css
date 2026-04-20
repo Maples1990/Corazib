@@ -31,6 +31,43 @@
   box-sizing: border-box;
 }
 
+/* Skip to main content link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 9999;
+  padding: 12px 24px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 16px;
+}
+
+/* Focus-visible styles */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+button:focus-visible,
+.button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 0;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 120px;
@@ -895,12 +932,6 @@ video.gallery-video {
   color: var(--ink);
 }
 
-.button:disabled {
-  opacity: 0.72;
-  cursor: wait;
-  transform: none;
-}
-
 .site-footer {
   display: flex;
   justify-content: space-between;
@@ -1126,7 +1157,10 @@ video.gallery-video {
   }
 
   .site-nav a {
-    padding: 8px 12px;
+    padding: 12px 16px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
   }
 
   .showcase-list div {
@@ -1281,8 +1315,8 @@ video.gallery-video {
   background: rgba(255, 255, 255, 0.84);
 }
 
-/* --- WhatsApp FAB --- */
-.fab-whatsapp {
+/* --- Google Voice contact pill --- */
+.fab-voice {
   position: fixed;
   bottom: 28px;
   right: 28px;
@@ -1290,17 +1324,37 @@ video.gallery-video {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #25d366;
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+  gap: 10px;
+  min-height: 60px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #17324d;
+  box-shadow: 0 10px 28px rgba(23, 50, 77, 0.18);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
   transition: transform 200ms ease, box-shadow 200ms ease;
 }
 
-.fab-whatsapp:hover {
+.fab-voice:hover,
+.fab-voice:focus-visible {
   transform: scale(1.08);
-  box-shadow: 0 12px 32px rgba(37, 211, 102, 0.45);
+  box-shadow: 0 14px 34px rgba(23, 50, 77, 0.24);
+}
+
+.fab-voice svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .fab-voice {
+    right: 16px;
+    bottom: 16px;
+    min-height: 52px;
+    padding: 0 14px;
+    font-size: 0.92rem;
+  }
 }
 
 /* --- Seasonal banner --- */
@@ -1496,8 +1550,9 @@ video.gallery-video {
   }
 
   .gallery-filter {
-    padding: 8px 14px;
+    padding: 12px 18px;
     font-size: 0.85rem;
+    min-height: 44px;
   }
 }
 

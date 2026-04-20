@@ -1,6 +1,12 @@
 const revealedSections = document.querySelectorAll('.reveal');
 const forms = document.querySelectorAll('.js-submit-form');
 
+/* --- Set minimum date on deadline picker --- */
+(function setMinDate() {
+  const el = document.getElementById('deadline-date');
+  if (el) el.min = new Date().toISOString().split('T')[0];
+})();
+
 /* --- CSRF token helper --- */
 function getCsrfToken() {
   const match = document.cookie.match(/(?:^|;\s*)_csrf=([^;]+)/);

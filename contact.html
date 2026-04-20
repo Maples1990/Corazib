@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260420">
+  <link rel="stylesheet" href="styles.css?v=20260420b">
   <style>
     .contact-page {
       max-width: 920px;
@@ -149,13 +149,37 @@
         </div>
 
         <div class="contact-page-actions">
-          <a class="button button-secondary" href="mailto:maria@corazoncreativeco.com?subject=Corazon%20Creative%20Co.%20Inquiry">Email Us</a>
+          <button class="button button-secondary" type="button" id="email-us-btn">Email Us</button>
           <button class="button button-secondary contact-copy-button" type="button" data-copy-email="maria@corazoncreativeco.com">Copy Email</button>
           <a class="button button-secondary" href="/#order">Start an Order</a>
         </div>
       </section>
     </div>
   </div>
-  <script src="script.js?v=20260420"></script>
+  <script src="script.js?v=20260420b"></script>
+  <script>
+    (function () {
+      var btn = document.getElementById('email-us-btn');
+      if (!btn) return;
+      var email = 'maria@corazoncreativeco.com';
+      var subject = 'Corazon Creative Co. Inquiry';
+      btn.addEventListener('click', function () {
+        var mailtoUrl = 'mailto:' + email + '?subject=' + encodeURIComponent(subject);
+        var w = window.open(mailtoUrl, '_blank');
+        // If window.open returned null or mailto didn't navigate, copy as fallback
+        setTimeout(function () {
+          if (document.hasFocus()) {
+            navigator.clipboard.writeText(email).then(function () {
+              btn.textContent = 'Email Copied!';
+              setTimeout(function () { btn.textContent = 'Email Us'; }, 2000);
+            }).catch(function () {
+              btn.textContent = email;
+              setTimeout(function () { btn.textContent = 'Email Us'; }, 3000);
+            });
+          }
+        }, 500);
+      });
+    })();
+  </script>
 </body>
 </html>

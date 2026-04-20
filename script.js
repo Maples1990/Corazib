@@ -159,7 +159,9 @@ document.querySelectorAll('[data-copy-email]').forEach((button) => {
 });
 
 const emailChooserToggle = document.querySelector('[data-email-chooser-toggle]');
-const emailChooserMenu = document.getElementById('contact-email-menu');
+const emailChooserMenu = document.getElementById('contact-email-modal');
+const emailChooserDialog = document.querySelector('.contact-email-dialog');
+const emailChooserClose = document.querySelector('[data-email-chooser-close]');
 
 if (emailChooserToggle && emailChooserMenu) {
   const closeEmailChooser = () => {
@@ -173,8 +175,12 @@ if (emailChooserToggle && emailChooserMenu) {
     emailChooserToggle.setAttribute('aria-expanded', String(!isOpen));
   });
 
+  emailChooserClose?.addEventListener('click', () => {
+    closeEmailChooser();
+  });
+
   document.addEventListener('click', (event) => {
-    if (!emailChooserMenu.hidden && !emailChooserMenu.contains(event.target) && !emailChooserToggle.contains(event.target)) {
+    if (!emailChooserMenu.hidden && !emailChooserDialog?.contains(event.target) && !emailChooserToggle.contains(event.target)) {
       closeEmailChooser();
     }
   });

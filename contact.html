@@ -101,40 +101,87 @@
       flex-wrap: wrap;
       gap: 0.9rem;
       margin-top: 2rem;
+      align-items: center;
     }
 
     .contact-email-chooser {
-      position: relative;
+      display: inline-flex;
     }
 
-    .contact-email-menu {
-      position: absolute;
-      top: calc(100% + 12px);
-      left: 0;
-      min-width: 240px;
-      padding: 0.7rem;
+    .contact-email-modal {
+      position: fixed;
+      inset: 0;
       display: grid;
-      gap: 0.45rem;
-      border-radius: 22px;
-      border: 1px solid rgba(39, 29, 26, 0.12);
-      background: rgba(255, 252, 249, 0.97);
-      box-shadow: 0 20px 44px rgba(49, 35, 22, 0.14);
-      z-index: 30;
+      place-items: center;
+      padding: 1.25rem;
+      background: rgba(23, 18, 17, 0.38);
+      backdrop-filter: blur(8px);
+      z-index: 200;
     }
 
-    .contact-email-menu[hidden] {
+    .contact-email-modal[hidden] {
       display: none;
     }
 
+    .contact-email-dialog {
+      width: min(560px, 100%);
+      padding: 1.4rem;
+      border-radius: 30px;
+      border: 1px solid rgba(39, 29, 26, 0.1);
+      background: linear-gradient(180deg, rgba(255, 252, 249, 0.98), rgba(249, 243, 236, 0.98));
+      box-shadow: 0 28px 70px rgba(27, 21, 19, 0.22);
+    }
+
+    .contact-email-dialog-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-email-dialog-head h2 {
+      margin: 0;
+      font-family: "Fraunces", serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      line-height: 1;
+    }
+
+    .contact-email-dialog-head p {
+      margin: 0.45rem 0 0;
+      color: rgba(23, 50, 77, 0.78);
+      line-height: 1.6;
+    }
+
+    .contact-email-close {
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--ink);
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(49, 35, 22, 0.1);
+    }
+
+    .contact-email-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
     .contact-email-option {
-      display: block;
-      padding: 0.8rem 1rem;
-      border-radius: 16px;
+      display: grid;
+      gap: 0.25rem;
+      padding: 1rem 1.05rem;
+      border-radius: 22px;
       color: var(--ink);
       text-decoration: none;
-      background: rgba(255, 255, 255, 0.76);
+      background: rgba(255, 255, 255, 0.84);
       border: 1px solid rgba(39, 29, 26, 0.08);
       font-weight: 600;
+      box-shadow: 0 14px 28px rgba(49, 35, 22, 0.06);
     }
 
     .contact-email-option:hover,
@@ -142,6 +189,16 @@
       background: rgba(194, 78, 58, 0.1);
       border-color: rgba(194, 78, 58, 0.18);
       outline: none;
+    }
+
+    .contact-email-option strong {
+      font-size: 1rem;
+    }
+
+    .contact-email-option span {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: rgba(23, 50, 77, 0.72);
     }
 
     .contact-copy-button {
@@ -159,6 +216,15 @@
 
       .contact-direct-grid {
         grid-template-columns: 1fr;
+      }
+
+      .contact-email-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-email-dialog {
+        padding: 1.1rem;
+        border-radius: 24px;
       }
     }
   </style>
@@ -189,18 +255,41 @@
 
         <div class="contact-page-actions">
           <div class="contact-email-chooser">
-            <button class="button button-secondary" type="button" data-email-chooser-toggle aria-expanded="false" aria-controls="contact-email-menu">Email Us</button>
-            <div class="contact-email-menu" id="contact-email-menu" hidden>
-              <a class="contact-email-option" href="mailto:maria@corazoncreativeco.com">Default Email App</a>
-              <a class="contact-email-option" href="https://mail.google.com/mail/?view=cm&fs=1&to=maria@corazoncreativeco.com" target="_blank" rel="noreferrer">Gmail</a>
-              <a class="contact-email-option" href="https://outlook.office.com/mail/deeplink/compose?to=maria@corazoncreativeco.com" target="_blank" rel="noreferrer">Outlook</a>
-              <a class="contact-email-option" href="https://compose.mail.yahoo.com/?to=maria@corazoncreativeco.com" target="_blank" rel="noreferrer">Yahoo Mail</a>
-            </div>
+            <button class="button button-secondary" type="button" data-email-chooser-toggle aria-expanded="false" aria-controls="contact-email-modal">Email Us</button>
           </div>
           <button class="button button-secondary contact-copy-button" type="button" data-copy-email="maria@corazoncreativeco.com">Copy Email</button>
           <a class="button button-secondary" href="/#order">Start an Order</a>
         </div>
       </section>
+    </div>
+  </div>
+  <div class="contact-email-modal" id="contact-email-modal" hidden>
+    <div class="contact-email-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-email-title">
+      <div class="contact-email-dialog-head">
+        <div>
+          <h2 id="contact-email-title">Choose your email app</h2>
+          <p>Open a new message in the email service you already use.</p>
+        </div>
+        <button class="contact-email-close" type="button" aria-label="Close email options" data-email-chooser-close>×</button>
+      </div>
+      <div class="contact-email-grid">
+        <a class="contact-email-option" href="mailto:maria@corazoncreativeco.com">
+          <strong>Default Email App</strong>
+          <span>Outlook, Apple Mail, or your browser's default handler</span>
+        </a>
+        <a class="contact-email-option" href="https://mail.google.com/mail/?view=cm&fs=1&to=maria@corazoncreativeco.com" target="_blank" rel="noreferrer">
+          <strong>Gmail</strong>
+          <span>Open a compose window in Gmail</span>
+        </a>
+        <a class="contact-email-option" href="https://outlook.office.com/mail/deeplink/compose?to=maria@corazoncreativeco.com" target="_blank" rel="noreferrer">
+          <strong>Outlook</strong>
+          <span>Open a compose window in Outlook</span>
+        </a>
+        <a class="contact-email-option" href="https://compose.mail.yahoo.com/?to=maria@corazoncreativeco.com" target="_blank" rel="noreferrer">
+          <strong>Yahoo Mail</strong>
+          <span>Open a compose window in Yahoo Mail</span>
+        </a>
+      </div>
     </div>
   </div>
   <script src="script.js?v=20260420"></script>

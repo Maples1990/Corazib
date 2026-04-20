@@ -103,6 +103,47 @@
       margin-top: 2rem;
     }
 
+    .contact-email-chooser {
+      position: relative;
+    }
+
+    .contact-email-menu {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 0;
+      min-width: 240px;
+      padding: 0.7rem;
+      display: grid;
+      gap: 0.45rem;
+      border-radius: 22px;
+      border: 1px solid rgba(39, 29, 26, 0.12);
+      background: rgba(255, 252, 249, 0.97);
+      box-shadow: 0 20px 44px rgba(49, 35, 22, 0.14);
+      z-index: 30;
+    }
+
+    .contact-email-menu[hidden] {
+      display: none;
+    }
+
+    .contact-email-option {
+      display: block;
+      padding: 0.8rem 1rem;
+      border-radius: 16px;
+      color: var(--ink);
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(39, 29, 26, 0.08);
+      font-weight: 600;
+    }
+
+    .contact-email-option:hover,
+    .contact-email-option:focus-visible {
+      background: rgba(194, 78, 58, 0.1);
+      border-color: rgba(194, 78, 58, 0.18);
+      outline: none;
+    }
+
     .contact-copy-button {
       cursor: pointer;
     }
@@ -147,7 +188,15 @@
         </div>
 
         <div class="contact-page-actions">
-          <a class="button button-secondary" href="mailto:maria@corazoncreativeco.com" data-email-link="maria@corazoncreativeco.com">Email Us</a>
+          <div class="contact-email-chooser">
+            <button class="button button-secondary" type="button" data-email-chooser-toggle aria-expanded="false" aria-controls="contact-email-menu">Email Us</button>
+            <div class="contact-email-menu" id="contact-email-menu" hidden>
+              <a class="contact-email-option" href="mailto:maria@corazoncreativeco.com">Default Email App</a>
+              <a class="contact-email-option" href="https://mail.google.com/mail/?view=cm&fs=1&to=maria@corazoncreativeco.com" target="_blank" rel="noreferrer">Gmail</a>
+              <a class="contact-email-option" href="https://outlook.office.com/mail/deeplink/compose?to=maria@corazoncreativeco.com" target="_blank" rel="noreferrer">Outlook</a>
+              <a class="contact-email-option" href="https://compose.mail.yahoo.com/?to=maria@corazoncreativeco.com" target="_blank" rel="noreferrer">Yahoo Mail</a>
+            </div>
+          </div>
           <button class="button button-secondary contact-copy-button" type="button" data-copy-email="maria@corazoncreativeco.com">Copy Email</button>
           <a class="button button-secondary" href="/#order">Start an Order</a>
         </div>

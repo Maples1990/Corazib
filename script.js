@@ -158,30 +158,39 @@ document.querySelectorAll('[data-copy-email]').forEach((button) => {
   });
 });
 
-document.querySelectorAll('[data-email-link]').forEach((link) => {
-  link.addEventListener('click', async (event) => {
-    const email = link.getAttribute('data-email-link');
-    const href = link.getAttribute('href');
-    if (!email || !href) return;
+const emailChooserToggle = document.querySelector('[data-email-chooser-toggle]');
+const emailChooserMenu = document.getElementById('contact-email-menu');
 
-    event.preventDefault();
+if (emailChooserToggle && emailChooserMenu) {
+  const closeEmailChooser = () => {
+    emailChooserMenu.hidden = true;
+    emailChooserToggle.setAttribute('aria-expanded', 'false');
+  };
 
-    const originalText = link.textContent;
-
-    try {
-      await navigator.clipboard.writeText(email);
-      link.textContent = 'Email Copied';
-    } catch (_error) {
-      link.textContent = 'Open Email App';
-    }
-
-    window.location.href = href;
-
-    window.setTimeout(() => {
-      link.textContent = originalText;
-    }, 1800);
+  emailChooserToggle.addEventListener('click', () => {
+    const isOpen = !emailChooserMenu.hidden;
+    emailChooserMenu.hidden = isOpen;
+    emailChooserToggle.setAttribute('aria-expanded', String(!isOpen));
   });
-});
+
+  document.addEventListener('click', (event) => {
+    if (!emailChooserMenu.hidden && !emailChooserMenu.contains(event.target) && !emailChooserToggle.contains(event.target)) {
+      closeEmailChooser();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeEmailChooser();
+    }
+  });
+
+  emailChooserMenu.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      closeEmailChooser();
+    });
+  });
+}
 
 forms.forEach((form) => {
   const feedback = document.createElement('p');

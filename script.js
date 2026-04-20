@@ -159,19 +159,21 @@ document.querySelectorAll('[data-copy-email]').forEach((button) => {
 });
 
 const emailChooserToggle = document.querySelector('[data-email-chooser-toggle]');
-const emailChooserMenu = document.getElementById('contact-email-modal');
-const emailChooserDialog = document.querySelector('.contact-email-dialog');
+const emailChooserMenu = document.getElementById('contact-email-overlay');
+const emailChooserDialog = document.querySelector('.contact-email-sheet');
 const emailChooserClose = document.querySelector('[data-email-chooser-close]');
 
 if (emailChooserToggle && emailChooserMenu) {
   const closeEmailChooser = () => {
-    emailChooserMenu.hidden = true;
+    emailChooserMenu.classList.remove('is-open');
+    emailChooserMenu.setAttribute('aria-hidden', 'true');
     emailChooserToggle.setAttribute('aria-expanded', 'false');
   };
 
   emailChooserToggle.addEventListener('click', () => {
-    const isOpen = !emailChooserMenu.hidden;
-    emailChooserMenu.hidden = isOpen;
+    const isOpen = emailChooserMenu.classList.contains('is-open');
+    emailChooserMenu.classList.toggle('is-open', !isOpen);
+    emailChooserMenu.setAttribute('aria-hidden', String(isOpen));
     emailChooserToggle.setAttribute('aria-expanded', String(!isOpen));
   });
 
@@ -180,7 +182,7 @@ if (emailChooserToggle && emailChooserMenu) {
   });
 
   document.addEventListener('click', (event) => {
-    if (!emailChooserMenu.hidden && !emailChooserDialog?.contains(event.target) && !emailChooserToggle.contains(event.target)) {
+    if (emailChooserMenu.classList.contains('is-open') && !emailChooserDialog?.contains(event.target) && !emailChooserToggle.contains(event.target)) {
       closeEmailChooser();
     }
   });

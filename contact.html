@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260420d">
+  <link rel="stylesheet" href="styles.css?v=20260420e">
   <style>
     .contact-page {
       max-width: 920px;
@@ -108,6 +108,47 @@
       cursor: pointer;
     }
 
+    .email-picker {
+      position: relative;
+      display: inline-block;
+    }
+
+    .email-picker summary {
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .email-picker summary::-webkit-details-marker { display: none; }
+    .email-picker summary::marker { display: none; content: ''; }
+
+    .email-picker-list {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 0;
+      z-index: 100;
+      min-width: 220px;
+      padding: 0.5rem 0;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid rgba(31, 26, 25, 0.12);
+      box-shadow: 0 12px 32px rgba(49, 35, 22, 0.18);
+      list-style: none;
+      margin: 0;
+    }
+
+    .email-picker-list li a {
+      display: block;
+      padding: 0.65rem 1.2rem;
+      color: var(--accent-deep, #17324d);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .email-picker-list li a:hover {
+      background: rgba(194, 78, 58, 0.08);
+    }
+
     @media (max-width: 720px) {
       .contact-page {
         padding: 2rem 1rem;
@@ -149,13 +190,21 @@
         </div>
 
         <div class="contact-page-actions">
-          <a class="button button-secondary" href="https://mail.google.com/mail/?view=cm&to=maria@corazoncreativeco.com&su=Corazon%20Creative%20Co.%20Inquiry" target="_blank" rel="noopener">Email Us</a>
+          <details class="email-picker">
+            <summary class="button button-secondary">Email Us ▾</summary>
+            <ul class="email-picker-list">
+              <li><a href="https://mail.google.com/mail/?view=cm&to=maria@corazoncreativeco.com&su=Corazon%20Creative%20Co.%20Inquiry" target="_blank" rel="noopener">Gmail</a></li>
+              <li><a href="https://outlook.live.com/mail/0/deeplink/compose?to=maria@corazoncreativeco.com&subject=Corazon%20Creative%20Co.%20Inquiry" target="_blank" rel="noopener">Outlook / Hotmail</a></li>
+              <li><a href="https://compose.mail.yahoo.com/?to=maria@corazoncreativeco.com&subject=Corazon%20Creative%20Co.%20Inquiry" target="_blank" rel="noopener">Yahoo Mail</a></li>
+              <li><a href="mailto:maria@corazoncreativeco.com?subject=Corazon%20Creative%20Co.%20Inquiry">Default Mail App</a></li>
+            </ul>
+          </details>
           <button class="button button-secondary contact-copy-button" type="button" data-copy-email="maria@corazoncreativeco.com">Copy Email</button>
           <a class="button button-secondary" href="/#order">Start an Order</a>
         </div>
       </section>
     </div>
   </div>
-  <script src="script.js?v=20260420d"></script>
+  <script src="script.js?v=20260420e"></script>
 </body>
 </html>

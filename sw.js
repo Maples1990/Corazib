@@ -1,4 +1,4 @@
-const CACHE_NAME = 'corazon-v20260420b';
+const CACHE_NAME = 'corazon-v20260420c';
 const PRECACHE = [
   '/',
   '/styles.css',

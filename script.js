@@ -158,6 +158,31 @@ document.querySelectorAll('[data-copy-email]').forEach((button) => {
   });
 });
 
+document.querySelectorAll('[data-email-link]').forEach((link) => {
+  link.addEventListener('click', async (event) => {
+    const email = link.getAttribute('data-email-link');
+    const href = link.getAttribute('href');
+    if (!email || !href) return;
+
+    event.preventDefault();
+
+    const originalText = link.textContent;
+
+    try {
+      await navigator.clipboard.writeText(email);
+      link.textContent = 'Email Copied';
+    } catch (_error) {
+      link.textContent = 'Open Email App';
+    }
+
+    window.location.href = href;
+
+    window.setTimeout(() => {
+      link.textContent = originalText;
+    }, 1800);
+  });
+});
+
 forms.forEach((form) => {
   const feedback = document.createElement('p');
   feedback.className = 'form-feedback';

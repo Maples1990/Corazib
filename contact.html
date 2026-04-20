@@ -104,121 +104,6 @@
       align-items: center;
     }
 
-    .contact-email-chooser {
-      display: inline-flex;
-    }
-
-    .contact-email-dialog {
-      width: min(460px, 100%);
-      max-width: 460px;
-      padding: 1.4rem;
-      border-radius: 28px;
-      border: 1px solid rgba(39, 29, 26, 0.1);
-      background: linear-gradient(180deg, rgba(255, 252, 249, 0.98), rgba(249, 243, 236, 0.98));
-      box-shadow: 0 28px 70px rgba(27, 21, 19, 0.22);
-    }
-
-    .contact-email-dialog::backdrop {
-      background: rgba(23, 18, 17, 0.44);
-      backdrop-filter: blur(10px);
-    }
-
-    .contact-email-dialog[open] {
-      display: block;
-    }
-
-    .contact-email-sheet-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .contact-email-sheet-head h2 {
-      margin: 0;
-      font-family: "Fraunces", serif;
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      line-height: 1;
-    }
-
-    .contact-email-sheet-head p {
-      margin: 0.45rem 0 0;
-      color: rgba(23, 50, 77, 0.78);
-      line-height: 1.6;
-    }
-
-    .contact-email-close {
-      width: 44px;
-      height: 44px;
-      border: 0;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.88);
-      color: var(--ink);
-      font-size: 1.4rem;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(49, 35, 22, 0.1);
-    }
-
-    .contact-email-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.8rem;
-    }
-
-    .contact-email-option {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1rem 1.05rem;
-      border-radius: 22px;
-      color: var(--ink);
-      text-decoration: none;
-      background: rgba(255, 255, 255, 0.84);
-      border: 1px solid rgba(39, 29, 26, 0.08);
-      font-weight: 600;
-      box-shadow: 0 14px 28px rgba(49, 35, 22, 0.06);
-    }
-
-    .contact-email-option:hover,
-    .contact-email-option:focus-visible {
-      background: rgba(194, 78, 58, 0.1);
-      border-color: rgba(194, 78, 58, 0.18);
-      outline: none;
-    }
-
-    .contact-email-option strong {
-      font-size: 1rem;
-    }
-
-    .contact-email-option-copy {
-      display: grid;
-      gap: 0.2rem;
-    }
-
-    .contact-email-option span {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: rgba(23, 50, 77, 0.72);
-    }
-
-    .contact-email-option-mark {
-      flex: 0 0 auto;
-      width: 40px;
-      height: 40px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 14px;
-      background: rgba(194, 78, 58, 0.12);
-      color: var(--accent-deep);
-      font-size: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
     .contact-copy-button {
       cursor: pointer;
     }
@@ -236,14 +121,6 @@
         grid-template-columns: 1fr;
       }
 
-      .contact-email-dialog {
-        padding: 1.1rem;
-        border-radius: 24px;
-      }
-
-      .contact-email-option {
-        padding: 0.95rem;
-      }
     }
   </style>
 </head>
@@ -272,49 +149,13 @@
         </div>
 
         <div class="contact-page-actions">
-          <div class="contact-email-chooser">
-            <button class="button button-secondary" type="button" data-email-chooser-toggle aria-expanded="false" aria-controls="contact-email-dialog">Email Us</button>
-          </div>
+          <a class="button button-secondary" href="mailto:maria@corazoncreativeco.com?subject=Corazon%20Creative%20Co.%20Inquiry">Email Us</a>
           <button class="button button-secondary contact-copy-button" type="button" data-copy-email="maria@corazoncreativeco.com">Copy Email</button>
           <a class="button button-secondary" href="/#order">Start an Order</a>
         </div>
       </section>
     </div>
   </div>
-  <dialog class="contact-email-dialog" id="contact-email-dialog" aria-labelledby="contact-email-title">
-    <div class="contact-email-sheet">
-      <div class="contact-email-sheet-head">
-        <div>
-          <h2 id="contact-email-title">Choose your email app</h2>
-          <p>Pick the service you want to use to send your message.</p>
-        </div>
-        <button class="contact-email-close" type="button" aria-label="Close email options" data-email-chooser-close>×</button>
-      </div>
-      <div class="contact-email-grid">
-        <a class="contact-email-option" href="mailto:maria@corazoncreativeco.com">
-          <span class="contact-email-option-copy">
-            <strong>Default Email App</strong>
-            <span>Use the app already set on this device</span>
-          </span>
-          <span class="contact-email-option-mark">App</span>
-        </a>
-        <a class="contact-email-option" href="https://mail.google.com/mail/?view=cm&fs=1&to=maria@corazoncreativeco.com" target="_blank" rel="noreferrer">
-          <span class="contact-email-option-copy">
-            <strong>Gmail</strong>
-            <span>Open a compose window in Gmail</span>
-          </span>
-          <span class="contact-email-option-mark">GM</span>
-        </a>
-        <a class="contact-email-option" href="https://outlook.office.com/mail/deeplink/compose?to=maria@corazoncreativeco.com" target="_blank" rel="noreferrer">
-          <span class="contact-email-option-copy">
-            <strong>Outlook</strong>
-            <span>Open a compose window in Outlook</span>
-          </span>
-          <span class="contact-email-option-mark">OL</span>
-        </a>
-      </div>
-    </div>
-  </dialog>
   <script src="script.js?v=20260420"></script>
 </body>
 </html>

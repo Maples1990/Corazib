@@ -158,50 +158,6 @@ document.querySelectorAll('[data-copy-email]').forEach((button) => {
   });
 });
 
-const emailChooserToggle = document.querySelector('[data-email-chooser-toggle]');
-const emailChooserMenu = document.getElementById('contact-email-dialog');
-const emailChooserClose = document.querySelector('[data-email-chooser-close]');
-
-if (emailChooserToggle && emailChooserMenu) {
-  const closeEmailChooser = () => {
-    if (typeof emailChooserMenu.close === 'function') {
-      emailChooserMenu.close();
-    }
-    emailChooserToggle.setAttribute('aria-expanded', 'false');
-  };
-
-  emailChooserToggle.addEventListener('click', () => {
-    const isOpen = emailChooserMenu.hasAttribute('open');
-    if (isOpen) {
-      closeEmailChooser();
-      return;
-    }
-
-    if (typeof emailChooserMenu.showModal === 'function') {
-      emailChooserMenu.showModal();
-    } else {
-      emailChooserMenu.setAttribute('open', 'open');
-    }
-    emailChooserToggle.setAttribute('aria-expanded', 'true');
-  });
-
-  emailChooserClose?.addEventListener('click', () => {
-    closeEmailChooser();
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && emailChooserMenu.hasAttribute('open')) {
-      closeEmailChooser();
-    }
-  });
-
-  emailChooserMenu.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      closeEmailChooser();
-    });
-  });
-}
-
 forms.forEach((form) => {
   const feedback = document.createElement('p');
   feedback.className = 'form-feedback';

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Corazon Creative Co.</title>
+  <meta name="description" content="Contact Corazon Creative Co. by phone, text, or email for questions, custom requests, and order follow-ups.">
+  <meta name="theme-color" content="#c24e3a">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260420">
+  <style>
+    .contact-page {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+
+    .contact-back {
+      display: inline-block;
+      margin-bottom: 2rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .contact-back:hover {
+      text-decoration: underline;
+    }
+
+    .contact-hero {
+      display: grid;
+      gap: 1.25rem;
+      padding: 2rem;
+      border-radius: 32px;
+      background: linear-gradient(135deg, var(--section-light), var(--section-warm));
+      box-shadow: 0 20px 44px rgba(49, 35, 22, 0.1);
+    }
+
+    .contact-hero h1 {
+      margin: 0;
+      font-family: "Fraunces", serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 0.98;
+    }
+
+    .contact-hero p {
+      margin: 0;
+      max-width: 58ch;
+      line-height: 1.7;
+      color: rgba(23, 50, 77, 0.82);
+    }
+
+    .contact-direct-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .contact-direct-card {
+      display: grid;
+      gap: 0.75rem;
+      padding: 1.5rem;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(31, 26, 25, 0.08);
+      box-shadow: 0 16px 34px rgba(49, 35, 22, 0.08);
+    }
+
+    .contact-direct-card span {
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(23, 50, 77, 0.68);
+    }
+
+    .contact-direct-card a {
+      color: var(--accent-deep);
+      font-family: "Fraunces", serif;
+      font-size: clamp(1.5rem, 3vw, 2.3rem);
+      line-height: 1.08;
+      text-decoration: none;
+    }
+
+    .contact-direct-card a:hover {
+      text-decoration: underline;
+    }
+
+    .contact-direct-card p {
+      margin: 0;
+      color: rgba(23, 50, 77, 0.8);
+      line-height: 1.6;
+    }
+
+    .contact-page-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 720px) {
+      .contact-page {
+        padding: 2rem 1rem;
+      }
+
+      .contact-hero {
+        padding: 1.5rem;
+      }
+
+      .contact-direct-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="contact-page">
+      <a class="contact-back" href="/">← Back to Home</a>
+
+      <section class="contact-hero">
+        <p class="eyebrow">Contact Us</p>
+        <h1>Reach Corazon Creative Co.</h1>
+        <p>Questions about a custom order, timing, sizing, or a design idea? Use the phone number below for quick questions and follow-ups, or email us anytime.</p>
+
+        <div class="contact-direct-grid">
+          <article class="contact-direct-card">
+            <span>Phone</span>
+            <a href="tel:3363139887">336-313-9887</a>
+            <p>Call or text through Google Voice for order questions, availability, and project details.</p>
+          </article>
+
+          <article class="contact-direct-card">
+            <span>Email</span>
+            <a href="mailto:maria@corazoncreativeco.com">maria@corazoncreativeco.com</a>
+            <p>Best for sending references, logos, design notes, or anything that needs a longer message.</p>
+          </article>
+        </div>
+
+        <div class="contact-page-actions">
+          <a class="button button-primary" href="tel:3363139887">Call Now</a>
+          <a class="button button-secondary" href="mailto:maria@corazoncreativeco.com">Email Us</a>
+          <a class="button button-secondary" href="/#order">Start an Order</a>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="script.js?v=20260420"></script>
+</body>
+</html>

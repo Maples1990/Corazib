@@ -159,36 +159,38 @@ document.querySelectorAll('[data-copy-email]').forEach((button) => {
 });
 
 const emailChooserToggle = document.querySelector('[data-email-chooser-toggle]');
-const emailChooserMenu = document.getElementById('contact-email-overlay');
-const emailChooserDialog = document.querySelector('.contact-email-sheet');
+const emailChooserMenu = document.getElementById('contact-email-dialog');
 const emailChooserClose = document.querySelector('[data-email-chooser-close]');
 
 if (emailChooserToggle && emailChooserMenu) {
   const closeEmailChooser = () => {
-    emailChooserMenu.classList.remove('is-open');
-    emailChooserMenu.setAttribute('aria-hidden', 'true');
+    if (typeof emailChooserMenu.close === 'function') {
+      emailChooserMenu.close();
+    }
     emailChooserToggle.setAttribute('aria-expanded', 'false');
   };
 
   emailChooserToggle.addEventListener('click', () => {
-    const isOpen = emailChooserMenu.classList.contains('is-open');
-    emailChooserMenu.classList.toggle('is-open', !isOpen);
-    emailChooserMenu.setAttribute('aria-hidden', String(isOpen));
-    emailChooserToggle.setAttribute('aria-expanded', String(!isOpen));
+    const isOpen = emailChooserMenu.hasAttribute('open');
+    if (isOpen) {
+      closeEmailChooser();
+      return;
+    }
+
+    if (typeof emailChooserMenu.showModal === 'function') {
+      emailChooserMenu.showModal();
+    } else {
+      emailChooserMenu.setAttribute('open', 'open');
+    }
+    emailChooserToggle.setAttribute('aria-expanded', 'true');
   });
 
   emailChooserClose?.addEventListener('click', () => {
     closeEmailChooser();
   });
 
-  document.addEventListener('click', (event) => {
-    if (emailChooserMenu.classList.contains('is-open') && !emailChooserDialog?.contains(event.target) && !emailChooserToggle.contains(event.target)) {
-      closeEmailChooser();
-    }
-  });
-
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' && emailChooserMenu.hasAttribute('open')) {
       closeEmailChooser();
     }
   });

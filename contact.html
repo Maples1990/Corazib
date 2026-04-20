@@ -108,29 +108,23 @@
       display: inline-flex;
     }
 
-    .contact-email-overlay {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1.25rem;
-      background: rgba(23, 18, 17, 0.44);
-      backdrop-filter: blur(10px);
-      z-index: 400;
-    }
-
-    .contact-email-overlay.is-open {
-      display: flex;
-    }
-
-    .contact-email-sheet {
+    .contact-email-dialog {
       width: min(460px, 100%);
+      max-width: 460px;
       padding: 1.4rem;
       border-radius: 28px;
       border: 1px solid rgba(39, 29, 26, 0.1);
       background: linear-gradient(180deg, rgba(255, 252, 249, 0.98), rgba(249, 243, 236, 0.98));
       box-shadow: 0 28px 70px rgba(27, 21, 19, 0.22);
+    }
+
+    .contact-email-dialog::backdrop {
+      background: rgba(23, 18, 17, 0.44);
+      backdrop-filter: blur(10px);
+    }
+
+    .contact-email-dialog[open] {
+      display: block;
     }
 
     .contact-email-sheet-head {
@@ -242,7 +236,7 @@
         grid-template-columns: 1fr;
       }
 
-      .contact-email-sheet {
+      .contact-email-dialog {
         padding: 1.1rem;
         border-radius: 24px;
       }
@@ -279,7 +273,7 @@
 
         <div class="contact-page-actions">
           <div class="contact-email-chooser">
-            <button class="button button-secondary" type="button" data-email-chooser-toggle aria-expanded="false" aria-controls="contact-email-overlay">Email Us</button>
+            <button class="button button-secondary" type="button" data-email-chooser-toggle aria-expanded="false" aria-controls="contact-email-dialog">Email Us</button>
           </div>
           <button class="button button-secondary contact-copy-button" type="button" data-copy-email="maria@corazoncreativeco.com">Copy Email</button>
           <a class="button button-secondary" href="/#order">Start an Order</a>
@@ -287,8 +281,8 @@
       </section>
     </div>
   </div>
-  <div class="contact-email-overlay" id="contact-email-overlay" aria-hidden="true">
-    <div class="contact-email-sheet" role="dialog" aria-modal="true" aria-labelledby="contact-email-title">
+  <dialog class="contact-email-dialog" id="contact-email-dialog" aria-labelledby="contact-email-title">
+    <div class="contact-email-sheet">
       <div class="contact-email-sheet-head">
         <div>
           <h2 id="contact-email-title">Choose your email app</h2>
@@ -320,7 +314,7 @@
         </a>
       </div>
     </div>
-  </div>
+  </dialog>
   <script src="script.js?v=20260420"></script>
 </body>
 </html>

@@ -1,6 +1,19 @@
 const revealedSections = document.querySelectorAll('.reveal');
 const forms = document.querySelectorAll('.js-submit-form');
 
+/* --- Apply cached theme immediately --- */
+(function applyCachedTheme() {
+  try {
+    const cachedColors = sessionStorage.getItem('theme-colors');
+    if (!cachedColors) return;
+    const colors = JSON.parse(cachedColors);
+    if (!colors || typeof colors !== 'object') return;
+    Object.entries(colors).forEach(([prop, value]) => {
+      document.documentElement.style.setProperty(prop, value);
+    });
+  } catch (_e) { /* silent */ }
+})();
+
 /* --- Set minimum date on deadline picker --- */
 (function setMinDate() {
   const el = document.getElementById('deadline-date');
@@ -31,24 +44,7 @@ function getCsrfToken() {
 })();
 
 /* --- Scroll reveal --- */
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) {
-        return;
-      }
-
-      entry.target.classList.add('is-visible');
-      observer.unobserve(entry.target);
-    });
-  },
-  {
-    threshold: 0.18,
-    rootMargin: '0px 0px -40px 0px',
-  }
-);
-
-revealedSections.forEach((section) => observer.observe(section));
+revealedSections.forEach((section) => section.classList.add('is-visible'));
 
 /* --- Hamburger menu --- */
 const navToggle = document.getElementById('nav-toggle');
@@ -70,15 +66,23 @@ if (navToggle && siteNav) {
   });
 }
 
-/* --- Seasonal banner --- */
-(function loadSeasonalBanner() {
+/* --- Seasonal theme + banner --- */
+(function loadSeasonalTheme() {
   const banner = document.getElementById('seasonal-banner');
-  if (!banner) return;
 
   fetch('/api/theme')
     .then((res) => res.ok ? res.json() : null)
     .then((data) => {
-      if (!data || !data.banner) return;
+      if (!data) return;
+
+      if (data.colors) {
+        Object.entries(data.colors).forEach(([prop, value]) => {
+          document.documentElement.style.setProperty(prop, value);
+        });
+        sessionStorage.setItem('theme-colors', JSON.stringify(data.colors));
+      }
+
+      if (!banner || !data.banner) return;
       if (sessionStorage.getItem('banner-dismissed') === data.season) return;
 
       banner.textContent = '';
@@ -95,12 +99,6 @@ if (navToggle && siteNav) {
         sessionStorage.setItem('banner-dismissed', data.season);
       });
       banner.appendChild(close);
-
-      if (data.colors) {
-        Object.entries(data.colors).forEach(([prop, value]) => {
-          document.documentElement.style.setProperty(prop, value);
-        });
-      }
 
       banner.hidden = false;
     })

@@ -215,7 +215,7 @@ forms.forEach((form) => {
       form.reset();
       if (fileText) fileText.textContent = 'Choose files or drag and drop';
     } catch (error) {
-      feedback.textContent = error.message || 'There was a problem sending the form. Please email maria@corazoncreativeco.com directly.';
+      feedback.textContent = error.message || 'There was a problem sending the form. Please email mariacorazoncreativeco@gmail.com directly.';
     } finally {
       if (submitButton) {
         submitButton.disabled = false;

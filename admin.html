@@ -25,14 +25,14 @@
       <div class="card-heading">
         <p class="eyebrow">Secure login</p>
         <h2>Sign in with your admin email</h2>
-        <p>Request a one-time code sent to maria@corazoncreativeco.com. No shared password is stored in the frontend.</p>
+        <p>Request a one-time code sent to mariacorazoncreativeco@gmail.com. No shared password is stored in the frontend.</p>
       </div>
 
       <form class="admin-form" id="request-code-form">
-        <label>
-          Admin email
-          <input type="email" name="email" value="maria@corazoncreativeco.com" required>
-        </label>
+        <div class="auth-group">
+          <label for="admin-email">Admin Email</label>
+          <input type="email" name="email" value="mariacorazoncreativeco@gmail.com" required>
+        </div>
         <button class="button button-primary" type="submit">Send sign-in code</button>
         <p class="form-feedback" id="request-code-feedback" aria-live="polite"></p>
       </form>

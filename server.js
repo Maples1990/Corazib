@@ -38,7 +38,7 @@ const APP_BASE_URL = process.env.APP_BASE_URL || `http://localhost:${PORT}`;
 const APP_ORIGIN = new URL(APP_BASE_URL).origin;
 const APP_ALLOWED_ORIGINS = buildAllowedOrigins(APP_ORIGIN, process.env.APP_ALLOWED_ORIGINS || '');
 const CANONICAL_HOST = normalizeHost(process.env.CANONICAL_HOST || '');
-const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'maria@corazoncreativeco.com').toLowerCase();
+const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'mariacorazoncreativeco@gmail.com').toLowerCase();
 const SESSION_SECRET = process.env.SESSION_SECRET || (() => {
   if (process.env.NODE_ENV === 'production') {
     console.error('WARNING: SESSION_SECRET not set — using random secret (sessions will not persist across restarts)');
